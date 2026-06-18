@@ -153,6 +153,25 @@
   .skip-btn{background:none;border:none;font-size:12px;color:var(--muted);cursor:pointer;padding:6px 16px;}
 
   .copyright{text-align:center;font-size:10px;color:#3a4560;padding:10px 0 4px;letter-spacing:.3px;}
+
+  /* STANDINGS TABLE */
+  .standings-group{background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:12px;overflow:hidden;}
+  .standings-group-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--card2);border-bottom:1px solid var(--border);}
+  .standings-group-name{font-size:12px;font-weight:800;color:var(--gold);letter-spacing:.8px;text-transform:uppercase;}
+  .standings-complete{font-size:9px;font-weight:700;color:var(--green);background:rgba(6,214,160,.12);border:1px solid rgba(6,214,160,.3);padding:2px 7px;border-radius:20px;}
+  .standings-table{width:100%;border-collapse:collapse;}
+  .standings-table th{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;padding:6px 10px;text-align:center;border-bottom:1px solid var(--border);}
+  .standings-table th.team-col{text-align:left;padding-left:12px;}
+  .standings-table td{font-size:12px;padding:7px 10px;text-align:center;color:var(--text);border-bottom:1px solid rgba(30,42,64,.5);}
+  .standings-table tr:last-child td{border-bottom:none;}
+  .standings-table td.team-col{text-align:left;padding-left:12px;font-weight:600;}
+  .standings-table td.pts-col{font-weight:800;color:var(--gold2);}
+  .standings-table tr.qualified td{background:rgba(6,214,160,.06);}
+  .standings-table tr.qualified td.pos-col{color:var(--green);font-weight:800;}
+  .standings-table tr.best-third td{background:rgba(240,180,41,.05);}
+  .standings-table tr.best-third td.pos-col{color:var(--gold);font-weight:700;}
+  .standings-table tr.fav-row td{background:rgba(240,180,41,.1) !important;}
+  .standings-table tr.fav-row td.team-col::after{content:' ⭐';font-size:10px;}
 </style>
 </head>
 <body>
@@ -225,6 +244,12 @@
   <div class="copyright">© Navdeep Saboo</div>
 </div>
 
+<!-- TABLES PAGE -->
+<div class="page" id="page-tables">
+  <div id="tables-content"></div>
+  <div class="copyright">© Navdeep Saboo</div>
+</div>
+
 <!-- INFO PAGE -->
 <div class="page" id="page-info">
   <div style="height:8px"></div>
@@ -270,6 +295,7 @@
   <div class="tabs">
     <button class="tab active" onclick="showPage('group',this)"><span class="ti">🗓️</span>GROUPS</button>
     <button class="tab" onclick="showPage('knockout',this)"><span class="ti">⚔️</span>KNOCKOUTS</button>
+    <button class="tab" onclick="showPage('tables',this)"><span class="ti">📊</span>POINTS</button>
     <button class="tab" onclick="showPage('info',this)"><span class="ti">ℹ️</span>INFO</button>
   </div>
 </div>
@@ -278,30 +304,30 @@
 // ── MATCH DATA ─────────────────────────────────────────────────────────────────
 // [stage, group, t1, t2, IST_ISO, ist_display, venue, result]
 const matches = [
-  ["group","A","Mexico","South Africa","2026-06-12T00:30","12:30 AM","Estadio Azteca, Mexico City","Mexico 2–0"],
-  ["group","A","South Korea","Czechia","2026-06-12T03:30","3:30 AM","Estadio Akron, Zapopan","South Korea 2–1"],
-  ["group","B","Canada","Bosnia & Herz.","2026-06-13T00:30","12:30 AM","Toronto Stadium","1–1 Draw"],
-  ["group","D","USA","Paraguay","2026-06-13T03:30","3:30 AM","Los Angeles Stadium","USA 4–1"],
-  ["group","B","Qatar","Switzerland","2026-06-14T00:30","12:30 AM","Levi's Stadium, Santa Clara","1–1 Draw"],
-  ["group","C","Brazil","Morocco","2026-06-14T03:30","3:30 AM","MetLife Stadium, NJ","1–1 Draw"],
-  ["group","C","Haiti","Scotland","2026-06-14T06:30","6:30 AM","Gillette Stadium, Foxborough","Scotland 1–0"],
-  ["group","D","Australia","Türkiye","2026-06-14T21:30","9:30 PM","BC Place, Vancouver","Australia 2–0"],
-  ["group","E","Germany","Curaçao","2026-06-15T00:30","12:30 AM","NRG Stadium, Houston","Germany 7–1"],
-  ["group","F","Netherlands","Japan","2026-06-15T03:30","3:30 AM","AT&T Stadium, Arlington","2–2 Draw"],
-  ["group","E","Ivory Coast","Ecuador","2026-06-15T04:30","4:30 AM","Lincoln Financial Field","Ivory Coast 1–0"],
-  ["group","F","Sweden","Tunisia","2026-06-15T07:30","7:30 AM","Estadio BBVA, Monterrey","Sweden 5–1"],
-  ["group","H","Spain","Cape Verde","2026-06-15T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta","0–0 Draw"],
-  ["group","G","Belgium","Egypt","2026-06-16T00:30","12:30 AM","Lumen Field, Seattle","1–1 Draw"],
-  ["group","H","Saudi Arabia","Uruguay","2026-06-16T03:30","3:30 AM","Hard Rock Stadium, Miami","1–1 Draw"],
-  ["group","G","Iran","New Zealand","2026-06-16T06:30","6:30 AM","SoFi Stadium, Inglewood","2–2 Draw"],
-  ["group","I","France","Senegal","2026-06-17T00:30","12:30 AM","MetLife Stadium, NJ","France 3–1"],
-  ["group","I","Iraq","Norway","2026-06-17T03:30","3:30 AM","Gillette Stadium, Foxborough","Norway 4–1"],
-  ["group","J","Argentina","Algeria","2026-06-17T06:30","6:30 AM","Arrowhead Stadium, Kansas City","Argentina 3–0"],
-  ["group","J","Austria","Jordan","2026-06-17T09:30","9:30 AM","Levi's Stadium, Santa Clara","Austria 3–1"],
-  ["group","K","Portugal","DR Congo","2026-06-17T22:30","10:30 PM","NRG Stadium, Houston","1–1 Draw"],
-  ["group","L","England","Croatia","2026-06-18T01:30","1:30 AM","AT&T Stadium, Arlington","England 4–2"],
-  ["group","L","Ghana","Panama","2026-06-18T04:30","4:30 AM","BMO Field, Toronto","Ghana 1–0"],
-  ["group","K","Uzbekistan","Colombia","2026-06-18T07:30","7:30 AM","Estadio Azteca, Mexico City","Colombia 3–1"],
+  ["group","A","Mexico","South Africa","2026-06-12T00:30","12:30 AM","Estadio Azteca, Mexico City",""],
+  ["group","A","South Korea","Czechia","2026-06-12T03:30","3:30 AM","Estadio Akron, Zapopan",""],
+  ["group","B","Canada","Bosnia & Herz.","2026-06-13T00:30","12:30 AM","Toronto Stadium",""],
+  ["group","D","USA","Paraguay","2026-06-13T03:30","3:30 AM","Los Angeles Stadium",""],
+  ["group","B","Qatar","Switzerland","2026-06-14T00:30","12:30 AM","Levi's Stadium, Santa Clara",""],
+  ["group","C","Brazil","Morocco","2026-06-14T03:30","3:30 AM","MetLife Stadium, NJ",""],
+  ["group","C","Haiti","Scotland","2026-06-14T06:30","6:30 AM","Gillette Stadium, Foxborough",""],
+  ["group","D","Australia","Türkiye","2026-06-14T21:30","9:30 PM","BC Place, Vancouver",""],
+  ["group","E","Germany","Curaçao","2026-06-15T00:30","12:30 AM","NRG Stadium, Houston",""],
+  ["group","F","Netherlands","Japan","2026-06-15T03:30","3:30 AM","AT&T Stadium, Arlington",""],
+  ["group","E","Ivory Coast","Ecuador","2026-06-15T04:30","4:30 AM","Lincoln Financial Field",""],
+  ["group","F","Sweden","Tunisia","2026-06-15T07:30","7:30 AM","Estadio BBVA, Monterrey",""],
+  ["group","H","Spain","Cape Verde","2026-06-15T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta",""],
+  ["group","G","Belgium","Egypt","2026-06-16T00:30","12:30 AM","Lumen Field, Seattle",""],
+  ["group","H","Saudi Arabia","Uruguay","2026-06-16T03:30","3:30 AM","Hard Rock Stadium, Miami",""],
+  ["group","G","Iran","New Zealand","2026-06-16T06:30","6:30 AM","SoFi Stadium, Inglewood",""],
+  ["group","I","France","Senegal","2026-06-17T00:30","12:30 AM","MetLife Stadium, NJ",""],
+  ["group","I","Iraq","Norway","2026-06-17T03:30","3:30 AM","Gillette Stadium, Foxborough",""],
+  ["group","J","Argentina","Algeria","2026-06-17T06:30","6:30 AM","Arrowhead Stadium, Kansas City",""],
+  ["group","J","Austria","Jordan","2026-06-17T09:30","9:30 AM","Levi's Stadium, Santa Clara",""],
+  ["group","K","Portugal","DR Congo","2026-06-17T22:30","10:30 PM","NRG Stadium, Houston",""],
+  ["group","L","England","Croatia","2026-06-18T01:30","1:30 AM","AT&T Stadium, Arlington",""],
+  ["group","L","Ghana","Panama","2026-06-18T04:30","4:30 AM","BMO Field, Toronto",""],
+  ["group","K","Uzbekistan","Colombia","2026-06-18T07:30","7:30 AM","Estadio Azteca, Mexico City",""],
   ["group","A","Czechia","South Africa","2026-06-18T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta",""],
   ["group","B","Switzerland","Bosnia & Herz.","2026-06-19T00:30","12:30 AM","SoFi Stadium, Inglewood",""],
   ["group","B","Canada","Qatar","2026-06-19T03:30","3:30 AM","BC Place, Vancouver",""],
@@ -472,6 +498,22 @@ function updateFavBadge() {
   }
 }
 
+function getTeamStats(teamName) {
+  const stats = { mp:0, w:0, d:0, l:0, gf:0, ga:0 };
+  matches.filter(m => m[0]==='group' && (m[2]===teamName || m[3]===teamName)).forEach(m => {
+    const [,,t1,t2,,,, result] = m;
+    const r = parseMatchResult(t1, t2, result);
+    if (!r) return;
+    stats.mp++;
+    const isT1 = t1 === teamName;
+    const myG = isT1 ? r.t1g : r.t2g;
+    const opG = isT1 ? r.t2g : r.t1g;
+    stats.gf += myG; stats.ga += opG;
+    if (myG > opG) stats.w++; else if (myG < opG) stats.l++; else stats.d++;
+  });
+  return { ...stats, gd: stats.gf - stats.ga };
+}
+
 function updateFavSection() {
   const el = document.getElementById('favSection');
   if (!favTeams.length) {
@@ -482,17 +524,54 @@ function updateFavSection() {
     </div>`;
     return;
   }
+
   const now = new Date();
-  const favMs = matches.filter(m => m[0] === 'group' && isFavMatch(m));
+  const favMs = matches.filter(m => m[0]==='group' && isFavMatch(m));
   const played = favMs.filter(m => new Date(m[4]+':00+05:30') < now).length;
+
+  // Compute per-team stats
+  const teamStats = favTeams.map(t => ({ name: t, ...getTeamStats(t) }));
+  const totalGoals = teamStats.reduce((s, t) => s + t.gf, 0);
+  const totalConceded = teamStats.reduce((s, t) => s + t.ga, 0);
+
   const pills = favTeams.map(t => `<span style="display:inline-block;background:var(--card);border:1px solid rgba(240,180,41,.4);color:var(--gold2);font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin:2px 3px 2px 0">${t}</span>`).join('');
-  el.innerHTML = `<div class="fav-card" style="flex-direction:column;align-items:flex-start;gap:10px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;width:100%">
+
+  const teamRows = teamStats.map(t => {
+    const gdStr = t.gd > 0 ? `+${t.gd}` : `${t.gd}`;
+    return `<div style="display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);">
+      <div style="font-size:12px;font-weight:700;color:var(--text);flex:1">${t.name}</div>
+      <div style="display:flex;gap:12px;font-size:11px;color:var(--muted)">
+        <span style="text-align:center"><div style="font-size:14px;font-weight:800;color:var(--gold2)">${t.gf}</div><div style="font-size:9px;letter-spacing:.4px">SCORED</div></span>
+        <span style="text-align:center"><div style="font-size:14px;font-weight:800;color:var(--muted)">${t.ga}</div><div style="font-size:9px;letter-spacing:.4px">CONCEDED</div></span>
+        <span style="text-align:center"><div style="font-size:14px;font-weight:800;color:${t.gd>=0?'var(--green)':'var(--red)'}">${gdStr}</div><div style="font-size:9px;letter-spacing:.4px">GD</div></span>
+        <span style="text-align:center"><div style="font-size:14px;font-weight:800;color:var(--text)">${t.mp > 0 ? t.w+'W '+t.d+'D '+t.l+'L' : '—'}</div><div style="font-size:9px;letter-spacing:.4px">RECORD</div></span>
+      </div>
+    </div>`;
+  }).join('');
+
+  el.innerHTML = `<div class="fav-card" style="flex-direction:column;align-items:flex-start;gap:0;padding-bottom:10px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;width:100%;margin-bottom:10px">
       <div class="fav-card-label">Your Teams · ${favTeams.length} tracked</div>
       <button class="change-team-btn" onclick="showTeamModal()">Edit</button>
     </div>
-    <div>${pills}</div>
-    <div class="fav-card-sub">${favMs.length} group stage matches total · ${played} played</div>
+    <div style="margin-bottom:10px">${pills}</div>
+    <div style="display:flex;gap:16px;width:100%;margin-bottom:12px;padding:10px;background:var(--navy);border-radius:10px;justify-content:center;">
+      <div style="text-align:center">
+        <div style="font-size:24px;font-weight:900;color:var(--gold)">${totalGoals}</div>
+        <div style="font-size:9px;color:var(--muted);letter-spacing:.6px;text-transform:uppercase">Combined Goals Scored</div>
+      </div>
+      <div style="width:1px;background:var(--border)"></div>
+      <div style="text-align:center">
+        <div style="font-size:24px;font-weight:900;color:var(--muted)">${totalConceded}</div>
+        <div style="font-size:9px;color:var(--muted);letter-spacing:.6px;text-transform:uppercase">Combined Conceded</div>
+      </div>
+      <div style="width:1px;background:var(--border)"></div>
+      <div style="text-align:center">
+        <div style="font-size:24px;font-weight:900;color:var(--text)">${played}/${favMs.length}</div>
+        <div style="font-size:9px;color:var(--muted);letter-spacing:.6px;text-transform:uppercase">Matches Played</div>
+      </div>
+    </div>
+    <div style="width:100%">${teamRows}</div>
   </div>`;
 }
 
@@ -665,6 +744,167 @@ function updateCountdown() {
     : `${String(h).padStart(2,'0')}:${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
 }
 
+// Close modal on overlay tap
+document.getElementById('teamModal').addEventListener('click', function(e) {
+  if (e.target === this) dismissModal();
+});
+
+// ── STANDINGS ──────────────────────────────────────────────────────────────────
+function parseMatchResult(t1, t2, result) {
+  if (!result) return null;
+  // Draw: "1–1 Draw"
+  const d = result.match(/^(\d+)\u2013(\d+) Draw$/);
+  if (d) return { t1g: +d[1], t2g: +d[2] };
+  // Win: "Mexico 2–0" (winner name + winner_score–loser_score)
+  const w = result.match(/^(.+) (\d+)\u2013(\d+)$/);
+  if (w) {
+    const winner = w[1], ws = +w[2], ls = +w[3];
+    if (winner === t1) return { t1g: ws, t2g: ls };
+    if (winner === t2) return { t1g: ls, t2g: ws };
+  }
+  return null;
+}
+
+function computeStandings() {
+  const groups = {};
+  matches.filter(m => m[0] === 'group').forEach(m => {
+    const [, grp, t1, t2, , , , result] = m;
+    if (!groups[grp]) groups[grp] = {};
+    [t1, t2].forEach(t => {
+      if (!groups[grp][t]) groups[grp][t] = { mp:0, w:0, d:0, l:0, gf:0, ga:0, pts:0 };
+    });
+    const r = parseMatchResult(t1, t2, result);
+    if (!r) return;
+    const s1 = groups[grp][t1], s2 = groups[grp][t2];
+    s1.mp++; s2.mp++;
+    s1.gf += r.t1g; s1.ga += r.t2g;
+    s2.gf += r.t2g; s2.ga += r.t1g;
+    if (r.t1g > r.t2g)      { s1.w++; s1.pts+=3; s2.l++; }
+    else if (r.t2g > r.t1g) { s2.w++; s2.pts+=3; s1.l++; }
+    else                     { s1.d++; s1.pts++; s2.d++; s2.pts++; }
+  });
+  return groups;
+}
+
+function renderTablesPage() {
+  const groups = computeStandings();
+  const groupKeys = Object.keys(groups).sort();
+  let html = '<div style="height:8px"></div>';
+
+  groupKeys.forEach(grp => {
+    const teams = Object.entries(groups[grp])
+      .map(([name, s]) => ({ name, ...s, gd: s.gf - s.ga }))
+      .sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf || a.name.localeCompare(b.name));
+
+    const matchesInGroup = matches.filter(m => m[0]==='group' && m[1]===grp);
+    const playedInGroup = matchesInGroup.filter(m => m[7] && m[7].length > 0).length;
+    const totalInGroup = matchesInGroup.length;
+    const complete = playedInGroup === totalInGroup;
+
+    html += `<div class="standings-group">
+      <div class="standings-group-hdr">
+        <div class="standings-group-name">Group ${grp}</div>
+        ${complete ? '<div class="standings-complete">Complete ✓</div>' : `<div style="font-size:10px;color:var(--muted)">${playedInGroup}/${totalInGroup} played</div>`}
+      </div>
+      <table class="standings-table">
+        <thead><tr>
+          <th class="pos-col">#</th>
+          <th class="team-col">Team</th>
+          <th>MP</th><th>W</th><th>D</th><th>L</th>
+          <th>GF</th><th>GA</th><th>GD</th>
+          <th>Pts</th>
+        </tr></thead>
+        <tbody>`;
+
+    teams.forEach((t, i) => {
+      const pos = i + 1;
+      const isFav = favTeams.includes(t.name);
+      let rowClass = isFav ? 'fav-row' : '';
+      if (pos <= 2) rowClass += (rowClass ? ' ' : '') + 'qualified';
+      else if (pos === 3) rowClass += (rowClass ? ' ' : '') + 'best-third';
+      const gdStr = t.gd > 0 ? `+${t.gd}` : `${t.gd}`;
+      html += `<tr class="${rowClass}">
+        <td class="pos-col">${pos}</td>
+        <td class="team-col">${t.name}</td>
+        <td>${t.mp}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td>
+        <td>${t.gf}</td><td>${t.ga}</td><td>${gdStr}</td>
+        <td class="pts-col">${t.pts}</td>
+      </tr>`;
+    });
+
+    html += `</tbody></table></div>`;
+  });
+
+  document.getElementById('tables-content').innerHTML = html;
+  addBestThirdSection(groups, groupKeys);
+}
+
+function addBestThirdSection(groups, groupKeys) {
+  // Collect 3rd-placed team from each group
+  const thirds = groupKeys.map(grp => {
+    const sorted = Object.entries(groups[grp])
+      .map(([name, s]) => ({ name, grp, ...s, gd: s.gf - s.ga }))
+      .sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf || a.name.localeCompare(b.name));
+    return sorted[2] || null;
+  }).filter(Boolean);
+
+  if (!thirds.length) return;
+
+  // Rank all 12 thirds
+  thirds.sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf || a.name.localeCompare(b.name));
+
+  const groupsComplete = groupKeys.filter(grp => {
+    const ms = matches.filter(m => m[0]==='group' && m[1]===grp);
+    return ms.every(m => m[7] && m[7].length > 0);
+  }).length;
+
+  const provisional = groupsComplete < 12;
+
+  let html = `<div class="section-hdr" style="margin-top:4px">
+    <div class="section-hdr-line"></div>
+    <div class="section-hdr-label">Best 3rd Placed Teams</div>
+    <div class="section-hdr-line"></div>
+  </div>`;
+
+  html += `<div class="standings-group">
+    <div class="standings-group-hdr">
+      <div class="standings-group-name">Top 8 advance to R32</div>
+      <div style="font-size:9px;color:var(--muted)">${provisional ? `${groupsComplete}/12 groups complete · provisional` : 'Final standings'}</div>
+    </div>
+    <table class="standings-table">
+      <thead><tr>
+        <th class="pos-col">#</th>
+        <th class="team-col">Team</th>
+        <th>Grp</th><th>MP</th><th>W</th><th>D</th><th>L</th>
+        <th>GF</th><th>GA</th><th>GD</th><th>Pts</th>
+      </tr></thead>
+      <tbody>`;
+
+  thirds.forEach((t, i) => {
+    const pos = i + 1;
+    const advances = pos <= 8;
+    const isFav = favTeams.includes(t.name);
+    let rowClass = isFav ? 'fav-row' : '';
+    if (advances) rowClass += (rowClass ? ' ' : '') + 'qualified';
+    const gdStr = t.gd > 0 ? `+${t.gd}` : `${t.gd}`;
+    html += `<tr class="${rowClass}">
+      <td class="pos-col">${pos}</td>
+      <td class="team-col">${t.name}</td>
+      <td style="color:var(--gold);font-weight:700">${t.grp}</td>
+      <td>${t.mp}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td>
+      <td>${t.gf}</td><td>${t.ga}</td><td>${gdStr}</td>
+      <td class="pts-col">${t.pts}</td>
+    </tr>`;
+    // Divider between 8th and 9th
+    if (pos === 8 && thirds.length > 8) {
+      html += `<tr><td colspan="11" style="padding:0;background:rgba(239,71,111,.15);border-bottom:2px solid var(--red);font-size:9px;color:var(--red);text-align:center;padding:3px 0;letter-spacing:.5px">ELIMINATED</td></tr>`;
+    }
+  });
+
+  html += `</tbody></table></div>`;
+  document.getElementById('tables-content').insertAdjacentHTML('beforeend', html);
+}
+
 // ── TABS ───────────────────────────────────────────────────────────────────────
 function showPage(name, btn) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -672,16 +912,12 @@ function showPage(name, btn) {
   document.getElementById('page-' + name).classList.add('active');
   btn.classList.add('active');
   document.querySelector('.scroll-area').scrollTop = 0;
+  if (name === 'tables') renderTablesPage();
 }
 
-// Close modal on overlay tap
-document.getElementById('teamModal').addEventListener('click', function(e) {
-  if (e.target === this) dismissModal();
-});
-
-// ── INIT ───────────────────────────────────────────────────────────────────────
 renderGroupPage();
 renderKnockoutPage();
+renderTablesPage();
 updateFavBadge();
 updateFavSection();
 updateCountdown();
@@ -691,7 +927,5 @@ if (!localStorage.getItem('wcModalSeen')) {
   setTimeout(showTeamModal, 300);
 }
 </script>
-  <script data-goatcounter="https://kickoffist.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
