@@ -154,6 +154,14 @@
 
   .copyright{text-align:center;font-size:10px;color:#3a4560;padding:10px 0 4px;letter-spacing:.3px;}
 
+  /* DID YOU KNOW */
+  .dyk-card{background:linear-gradient(135deg,#1a2236,#0f1726);border:1px solid rgba(240,180,41,.25);border-radius:14px;padding:18px 16px;margin-bottom:10px;cursor:pointer;transition:opacity .2s;user-select:none;}
+  .dyk-emoji{font-size:28px;margin-bottom:8px;}
+  .dyk-label{font-size:9px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+  .dyk-text{font-size:13px;color:var(--text);line-height:1.6;min-height:60px;}
+  .dyk-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px;}
+  .dyk-tap{font-size:10px;color:var(--muted);}
+
   /* STANDINGS TABLE */
   .standings-group{background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:12px;overflow:hidden;}
   .standings-group-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--card2);border-bottom:1px solid var(--border);}
@@ -285,6 +293,15 @@
     <div class="info-row"><strong>Argentina 🇦🇷</strong> Holders, Messi's last dance?</div>
     <div class="info-row"><strong>England 🏴󠁧󠁢󠁥󠁮󠁧󠁿</strong> Finally their year?</div>
   </div>
+  <div class="section-hdr"><div class="section-hdr-line"></div><div class="section-hdr-label">Did You Know? 🤔</div><div class="section-hdr-line"></div></div>
+  <div class="dyk-card" id="dykCard" onclick="nextFact()">
+    <div class="dyk-emoji" id="dykEmoji">⚽</div>
+    <div class="dyk-text" id="dykText">Loading...</div>
+    <div class="dyk-footer">
+      <div id="dykDots"></div>
+      <div class="dyk-tap">Tap for next →</div>
+    </div>
+  </div>
   <div style="background:linear-gradient(135deg,#1a2236,#0f1726);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:10px;text-align:center;">
     <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px">Built by</div>
     <div style="font-size:16px;font-weight:800;color:var(--text);margin-bottom:4px">Navdeep Saboo</div>
@@ -314,30 +331,30 @@
 // ── MATCH DATA ─────────────────────────────────────────────────────────────────
 // [stage, group, t1, t2, IST_ISO, ist_display, venue, result]
 const matches = [
-  ["group","A","Mexico","South Africa","2026-06-12T00:30","12:30 AM","Estadio Azteca, Mexico City","Mexico 2–0"],
-  ["group","A","South Korea","Czechia","2026-06-12T03:30","3:30 AM","Estadio Akron, Zapopan","South Korea 2–1"],
-  ["group","B","Canada","Bosnia & Herz.","2026-06-13T00:30","12:30 AM","Toronto Stadium","1–1 Draw"],
-  ["group","D","USA","Paraguay","2026-06-13T03:30","3:30 AM","Los Angeles Stadium","USA 4–1"],
-  ["group","B","Qatar","Switzerland","2026-06-14T00:30","12:30 AM","Levi's Stadium, Santa Clara","1–1 Draw"],
-  ["group","C","Brazil","Morocco","2026-06-14T03:30","3:30 AM","MetLife Stadium, NJ","1–1 Draw"],
-  ["group","C","Haiti","Scotland","2026-06-14T06:30","6:30 AM","Gillette Stadium, Foxborough","Scotland 1–0"],
-  ["group","D","Australia","Türkiye","2026-06-14T21:30","9:30 PM","BC Place, Vancouver","Australia 2–0"],
-  ["group","E","Germany","Curaçao","2026-06-15T00:30","12:30 AM","NRG Stadium, Houston","Germany 7–1"],
-  ["group","F","Netherlands","Japan","2026-06-15T03:30","3:30 AM","AT&T Stadium, Arlington","2–2 Draw"],
-  ["group","E","Ivory Coast","Ecuador","2026-06-15T04:30","4:30 AM","Lincoln Financial Field","Ivory Coast 1–0"],
-  ["group","F","Sweden","Tunisia","2026-06-15T07:30","7:30 AM","Estadio BBVA, Monterrey","Sweden 5–1"],
-  ["group","H","Spain","Cape Verde","2026-06-15T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta","0–0 Draw"],
-  ["group","G","Belgium","Egypt","2026-06-16T00:30","12:30 AM","Lumen Field, Seattle","1–1 Draw"],
-  ["group","H","Saudi Arabia","Uruguay","2026-06-16T03:30","3:30 AM","Hard Rock Stadium, Miami","1–1 Draw"],
-  ["group","G","Iran","New Zealand","2026-06-16T06:30","6:30 AM","SoFi Stadium, Inglewood","2–2 Draw"],
-  ["group","I","France","Senegal","2026-06-17T00:30","12:30 AM","MetLife Stadium, NJ","France 3–1"],
-  ["group","I","Iraq","Norway","2026-06-17T03:30","3:30 AM","Gillette Stadium, Foxborough","Norway 4–1"],
-  ["group","J","Argentina","Algeria","2026-06-17T06:30","6:30 AM","Arrowhead Stadium, Kansas City","Argentina 3–0"],
-  ["group","J","Austria","Jordan","2026-06-17T09:30","9:30 AM","Levi's Stadium, Santa Clara","Austria 3–1"],
-  ["group","K","Portugal","DR Congo","2026-06-17T22:30","10:30 PM","NRG Stadium, Houston","1–1 Draw"],
-  ["group","L","England","Croatia","2026-06-18T01:30","1:30 AM","AT&T Stadium, Arlington","England 4–2"],
-  ["group","L","Ghana","Panama","2026-06-18T04:30","4:30 AM","BMO Field, Toronto","Ghana 1–0"],
-  ["group","K","Uzbekistan","Colombia","2026-06-18T07:30","7:30 AM","Estadio Azteca, Mexico City","Colombia 3–1"],
+  ["group","A","Mexico","South Africa","2026-06-12T00:30","12:30 AM","Estadio Azteca, Mexico City",""],
+  ["group","A","South Korea","Czechia","2026-06-12T03:30","3:30 AM","Estadio Akron, Zapopan",""],
+  ["group","B","Canada","Bosnia & Herz.","2026-06-13T00:30","12:30 AM","Toronto Stadium",""],
+  ["group","D","USA","Paraguay","2026-06-13T03:30","3:30 AM","Los Angeles Stadium",""],
+  ["group","B","Qatar","Switzerland","2026-06-14T00:30","12:30 AM","Levi's Stadium, Santa Clara",""],
+  ["group","C","Brazil","Morocco","2026-06-14T03:30","3:30 AM","MetLife Stadium, NJ",""],
+  ["group","C","Haiti","Scotland","2026-06-14T06:30","6:30 AM","Gillette Stadium, Foxborough",""],
+  ["group","D","Australia","Türkiye","2026-06-14T21:30","9:30 PM","BC Place, Vancouver",""],
+  ["group","E","Germany","Curaçao","2026-06-15T00:30","12:30 AM","NRG Stadium, Houston",""],
+  ["group","F","Netherlands","Japan","2026-06-15T03:30","3:30 AM","AT&T Stadium, Arlington",""],
+  ["group","E","Ivory Coast","Ecuador","2026-06-15T04:30","4:30 AM","Lincoln Financial Field",""],
+  ["group","F","Sweden","Tunisia","2026-06-15T07:30","7:30 AM","Estadio BBVA, Monterrey",""],
+  ["group","H","Spain","Cape Verde","2026-06-15T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta",""],
+  ["group","G","Belgium","Egypt","2026-06-16T00:30","12:30 AM","Lumen Field, Seattle",""],
+  ["group","H","Saudi Arabia","Uruguay","2026-06-16T03:30","3:30 AM","Hard Rock Stadium, Miami",""],
+  ["group","G","Iran","New Zealand","2026-06-16T06:30","6:30 AM","SoFi Stadium, Inglewood",""],
+  ["group","I","France","Senegal","2026-06-17T00:30","12:30 AM","MetLife Stadium, NJ",""],
+  ["group","I","Iraq","Norway","2026-06-17T03:30","3:30 AM","Gillette Stadium, Foxborough",""],
+  ["group","J","Argentina","Algeria","2026-06-17T06:30","6:30 AM","Arrowhead Stadium, Kansas City",""],
+  ["group","J","Austria","Jordan","2026-06-17T09:30","9:30 AM","Levi's Stadium, Santa Clara",""],
+  ["group","K","Portugal","DR Congo","2026-06-17T22:30","10:30 PM","NRG Stadium, Houston",""],
+  ["group","L","England","Croatia","2026-06-18T01:30","1:30 AM","AT&T Stadium, Arlington",""],
+  ["group","L","Ghana","Panama","2026-06-18T04:30","4:30 AM","BMO Field, Toronto",""],
+  ["group","K","Uzbekistan","Colombia","2026-06-18T07:30","7:30 AM","Estadio Azteca, Mexico City",""],
   ["group","A","Czechia","South Africa","2026-06-18T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta",""],
   ["group","B","Switzerland","Bosnia & Herz.","2026-06-19T00:30","12:30 AM","SoFi Stadium, Inglewood",""],
   ["group","B","Canada","Qatar","2026-06-19T03:30","3:30 AM","BC Place, Vancouver",""],
@@ -845,6 +862,7 @@ function renderTablesPage() {
 
   document.getElementById('tables-content').innerHTML = html;
   addBestThirdSection(groups, groupKeys);
+  addTopScorersSection(groups);
 }
 
 function addBestThirdSection(groups, groupKeys) {
@@ -912,6 +930,96 @@ function addBestThirdSection(groups, groupKeys) {
   document.getElementById('tables-content').insertAdjacentHTML('beforeend', html);
 }
 
+// ── TOP SCORING TEAMS ──────────────────────────────────────────────────────────
+function addTopScorersSection(groups) {
+  const allTeams = [];
+  Object.values(groups).forEach(grpTeams => {
+    Object.entries(grpTeams).forEach(([name, s]) => {
+      allTeams.push({ name, gf: s.gf, mp: s.mp });
+    });
+  });
+  const scored = allTeams.filter(t => t.gf > 0).sort((a, b) => b.gf - a.gf);
+  if (!scored.length) return;
+  const top = scored.slice(0, 12);
+  const maxGoals = top[0].gf;
+  const medals = ['🥇','🥈','🥉'];
+  let html = `<div class="section-hdr" style="margin-top:4px">
+    <div class="section-hdr-line"></div>
+    <div class="section-hdr-label">Top Scoring Teams ⚽</div>
+    <div class="section-hdr-line"></div>
+  </div>
+  <div class="standings-group" style="overflow:hidden;padding-bottom:4px">`;
+  top.forEach((t, i) => {
+    const isFav = favTeams.includes(t.name);
+    const barPct = Math.round((t.gf / maxGoals) * 100);
+    const goalColor = i===0?'var(--gold)':i===1?'#b0b0b8':i===2?'#cd8c3a':'var(--text)';
+    const barColor = i===0?'var(--gold)':i===1?'#b0b0b8':i===2?'#cd8c3a':'var(--muted)';
+    const rank = i < 3 ? medals[i] : `<span style="font-size:11px;font-weight:700;color:var(--muted)">${i+1}</span>`;
+    html += `<div style="display:flex;align-items:center;padding:9px 14px;border-bottom:1px solid rgba(30,42,64,.5);gap:10px${isFav?';background:rgba(240,180,41,.08)':''}">
+      <div style="font-size:${i<3?'16':'12'}px;width:22px;text-align:center;flex-shrink:0">${rank}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:12px;font-weight:700;color:${isFav?'var(--gold2)':goalColor}">${t.name}${isFav?' ⭐':''}</div>
+        <div style="height:3px;background:var(--border);border-radius:2px;margin-top:5px">
+          <div style="height:3px;background:${barColor};border-radius:2px;width:${barPct}%"></div>
+        </div>
+      </div>
+      <div style="font-size:20px;font-weight:900;color:${goalColor};flex-shrink:0">${t.gf}</div>
+    </div>`;
+  });
+  html += `</div>`;
+  document.getElementById('tables-content').insertAdjacentHTML('beforeend', html);
+}
+
+// ── DID YOU KNOW ───────────────────────────────────────────────────────────────
+const DYK_FACTS = [
+  { e:'👥', t:'FIFA World Cup 2026 is the first ever with 48 teams — expanded from 32 teams, which had been the format since 1998.' },
+  { e:'🌎', t:'Mexico becomes the first country to host the World Cup three times — previously hosting in 1970 and 1986.' },
+  { e:'🆕', t:'The Round of 32 is being played at a World Cup for the very first time in 2026 — a brand new knockout round in WC history.' },
+  { e:'🏆', t:'Brazil hold the record for most World Cup titles with 5 — winning in 1958, 1962, 1970, 1994, and 2002.' },
+  { e:'⚽', t:"Germany's Miroslav Klose is the all-time top scorer in World Cup history with 16 goals across four tournaments." },
+  { e:'⚡', t:'The fastest goal in World Cup history was scored in just 10.8 seconds — by Hakan Şükür of Turkey against South Korea in 2002.' },
+  { e:'🇫🇷', t:'Just Fontaine scored 13 goals for France at the 1958 World Cup — a record for a single tournament that still stands today.' },
+  { e:'🏟️', t:'The 2026 Final at MetLife Stadium in New Jersey will be played in front of over 82,500 fans — the largest stadium in the Americas.' },
+  { e:'🕐', t:'Indian Standard Time (IST) is exactly 9 hours and 30 minutes ahead of US Eastern Time (ET).' },
+  { e:'🇦🇷', t:"Argentina's 2022 triumph in Qatar ended a 36-year wait — their previous title came in 1986 with Diego Maradona." },
+  { e:'🇺🇾', t:'Uruguay won the very first World Cup in 1930 — on home soil, beating Argentina 4–2 in the final.' },
+  { e:'🇪🇸', t:'Spain won three consecutive major tournaments — Euro 2008, World Cup 2010, and Euro 2012 — an unprecedented hat-trick.' },
+  { e:'🌍', t:"Over 5 billion people watched the 2022 World Cup — more than half the world's population." },
+  { e:'🇨🇦', t:'Canada is co-hosting the World Cup for the first time ever in 2026. They had only previously appeared at two World Cups — 1986 and 2022.' },
+  { e:'🪙', t:'The FIFA World Cup trophy weighs 6.175 kg and is made of solid 18-carat gold with a base of malachite.' },
+  { e:'🇩🇪', t:"Germany's 7–1 demolition of Brazil in the 2014 semi-final — on Brazilian soil — remains one of the most shocking results in World Cup history." },
+];
+
+let dykIndex = 0;
+let dykTimer = null;
+
+function renderFact(i) {
+  const card = document.getElementById('dykCard');
+  if (!card) return;
+  card.style.opacity = '0';
+  setTimeout(() => {
+    document.getElementById('dykEmoji').textContent = DYK_FACTS[i].e;
+    document.getElementById('dykText').textContent = DYK_FACTS[i].t;
+    document.getElementById('dykDots').innerHTML = DYK_FACTS.map((_, j) =>
+      `<span style="display:inline-block;width:${j===i?'16':'6'}px;height:6px;border-radius:3px;background:${j===i?'var(--gold)':'var(--border)'};margin:0 2px;transition:width .3s"></span>`
+    ).join('');
+    card.style.opacity = '1';
+  }, 180);
+}
+
+function nextFact() {
+  clearInterval(dykTimer);
+  dykIndex = (dykIndex + 1) % DYK_FACTS.length;
+  renderFact(dykIndex);
+  dykTimer = setInterval(() => { dykIndex = (dykIndex + 1) % DYK_FACTS.length; renderFact(dykIndex); }, 8000);
+}
+
+function initDidYouKnow() {
+  dykIndex = Math.floor(Math.random() * DYK_FACTS.length);
+  renderFact(dykIndex);
+  dykTimer = setInterval(() => { dykIndex = (dykIndex + 1) % DYK_FACTS.length; renderFact(dykIndex); }, 8000);
+}
+
 // ── TABS ───────────────────────────────────────────────────────────────────────
 function showPage(name, btn) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -928,6 +1036,7 @@ renderTablesPage();
 updateFavBadge();
 updateFavSection();
 updateCountdown();
+initDidYouKnow();
 setInterval(updateCountdown, 1000);
 
 if (!localStorage.getItem('wcModalSeen')) {
