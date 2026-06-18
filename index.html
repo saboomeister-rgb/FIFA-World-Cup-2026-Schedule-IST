@@ -159,12 +159,13 @@
   .standings-group-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--card2);border-bottom:1px solid var(--border);}
   .standings-group-name{font-size:12px;font-weight:800;color:var(--gold);letter-spacing:.8px;text-transform:uppercase;}
   .standings-complete{font-size:9px;font-weight:700;color:var(--green);background:rgba(6,214,160,.12);border:1px solid rgba(6,214,160,.3);padding:2px 7px;border-radius:20px;}
-  .standings-table{width:100%;border-collapse:collapse;}
-  .standings-table th{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;padding:6px 10px;text-align:center;border-bottom:1px solid var(--border);}
-  .standings-table th.team-col{text-align:left;padding-left:12px;}
-  .standings-table td{font-size:12px;padding:7px 10px;text-align:center;color:var(--text);border-bottom:1px solid rgba(30,42,64,.5);}
+  .standings-table{width:100%;border-collapse:collapse;table-layout:fixed;}
+  .standings-table th{font-size:8px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.2px;padding:5px 2px;text-align:center;border-bottom:1px solid var(--border);}
+  .standings-table th.team-col{text-align:left;padding-left:8px;width:30%;}
+  .standings-table th.pos-col{width:18px;}
+  .standings-table td{font-size:11px;padding:6px 2px;text-align:center;color:var(--text);border-bottom:1px solid rgba(30,42,64,.5);}
   .standings-table tr:last-child td{border-bottom:none;}
-  .standings-table td.team-col{text-align:left;padding-left:12px;font-weight:600;}
+  .standings-table td.team-col{text-align:left;padding-left:8px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:0;}
   .standings-table td.pts-col{font-weight:800;color:var(--gold2);}
   .standings-table tr.qualified td{background:rgba(6,214,160,.06);}
   .standings-table tr.qualified td.pos-col{color:var(--green);font-weight:800;}
@@ -284,6 +285,15 @@
     <div class="info-row"><strong>Argentina 🇦🇷</strong> Holders, Messi's last dance?</div>
     <div class="info-row"><strong>England 🏴󠁧󠁢󠁥󠁮󠁧󠁿</strong> Finally their year?</div>
   </div>
+  <div style="background:linear-gradient(135deg,#1a2236,#0f1726);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:10px;text-align:center;">
+    <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px">Built by</div>
+    <div style="font-size:16px;font-weight:800;color:var(--text);margin-bottom:4px">Navdeep Saboo</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:12px">All 104 matches · IST · Auto-updating results</div>
+    <a href="https://www.linkedin.com/in/navdeepsaboo/" target="_blank" style="display:inline-flex;align-items:center;gap:7px;background:#0A66C2;color:#fff;font-size:12px;font-weight:700;padding:8px 16px;border-radius:20px;text-decoration:none;letter-spacing:.3px;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      Connect on LinkedIn
+    </a>
+  </div>
   <div class="bottom-pad"></div>
   <div class="copyright">© Navdeep Saboo</div>
 </div>
@@ -304,30 +314,30 @@
 // ── MATCH DATA ─────────────────────────────────────────────────────────────────
 // [stage, group, t1, t2, IST_ISO, ist_display, venue, result]
 const matches = [
-  ["group","A","Mexico","South Africa","2026-06-12T00:30","12:30 AM","Estadio Azteca, Mexico City","Mexico 2–0"],
-  ["group","A","South Korea","Czechia","2026-06-12T03:30","3:30 AM","Estadio Akron, Zapopan","South Korea 2–1"],
-  ["group","B","Canada","Bosnia & Herz.","2026-06-13T00:30","12:30 AM","Toronto Stadium","1–1 Draw"],
-  ["group","D","USA","Paraguay","2026-06-13T03:30","3:30 AM","Los Angeles Stadium","USA 4–1"],
-  ["group","B","Qatar","Switzerland","2026-06-14T00:30","12:30 AM","Levi's Stadium, Santa Clara","1–1 Draw"],
-  ["group","C","Brazil","Morocco","2026-06-14T03:30","3:30 AM","MetLife Stadium, NJ","1–1 Draw"],
-  ["group","C","Haiti","Scotland","2026-06-14T06:30","6:30 AM","Gillette Stadium, Foxborough","Scotland 1–0"],
-  ["group","D","Australia","Türkiye","2026-06-14T21:30","9:30 PM","BC Place, Vancouver","Australia 2–0"],
-  ["group","E","Germany","Curaçao","2026-06-15T00:30","12:30 AM","NRG Stadium, Houston","Germany 7–1"],
-  ["group","F","Netherlands","Japan","2026-06-15T03:30","3:30 AM","AT&T Stadium, Arlington","2–2 Draw"],
-  ["group","E","Ivory Coast","Ecuador","2026-06-15T04:30","4:30 AM","Lincoln Financial Field","Ivory Coast 1–0"],
-  ["group","F","Sweden","Tunisia","2026-06-15T07:30","7:30 AM","Estadio BBVA, Monterrey","Sweden 5–1"],
-  ["group","H","Spain","Cape Verde","2026-06-15T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta","0–0 Draw"],
-  ["group","G","Belgium","Egypt","2026-06-16T00:30","12:30 AM","Lumen Field, Seattle","1–1 Draw"],
-  ["group","H","Saudi Arabia","Uruguay","2026-06-16T03:30","3:30 AM","Hard Rock Stadium, Miami","1–1 Draw"],
-  ["group","G","Iran","New Zealand","2026-06-16T06:30","6:30 AM","SoFi Stadium, Inglewood","2–2 Draw"],
-  ["group","I","France","Senegal","2026-06-17T00:30","12:30 AM","MetLife Stadium, NJ","France 3–1"],
-  ["group","I","Iraq","Norway","2026-06-17T03:30","3:30 AM","Gillette Stadium, Foxborough","Norway 4–1"],
-  ["group","J","Argentina","Algeria","2026-06-17T06:30","6:30 AM","Arrowhead Stadium, Kansas City","Argentina 3–0"],
-  ["group","J","Austria","Jordan","2026-06-17T09:30","9:30 AM","Levi's Stadium, Santa Clara","Austria 3–1"],
-  ["group","K","Portugal","DR Congo","2026-06-17T22:30","10:30 PM","NRG Stadium, Houston","1–1 Draw"],
-  ["group","L","England","Croatia","2026-06-18T01:30","1:30 AM","AT&T Stadium, Arlington","England 4–2"],
-  ["group","L","Ghana","Panama","2026-06-18T04:30","4:30 AM","BMO Field, Toronto","Ghana 1–0"],
-  ["group","K","Uzbekistan","Colombia","2026-06-18T07:30","7:30 AM","Estadio Azteca, Mexico City","Colombia 3–1"],
+  ["group","A","Mexico","South Africa","2026-06-12T00:30","12:30 AM","Estadio Azteca, Mexico City",""],
+  ["group","A","South Korea","Czechia","2026-06-12T03:30","3:30 AM","Estadio Akron, Zapopan",""],
+  ["group","B","Canada","Bosnia & Herz.","2026-06-13T00:30","12:30 AM","Toronto Stadium",""],
+  ["group","D","USA","Paraguay","2026-06-13T03:30","3:30 AM","Los Angeles Stadium",""],
+  ["group","B","Qatar","Switzerland","2026-06-14T00:30","12:30 AM","Levi's Stadium, Santa Clara",""],
+  ["group","C","Brazil","Morocco","2026-06-14T03:30","3:30 AM","MetLife Stadium, NJ",""],
+  ["group","C","Haiti","Scotland","2026-06-14T06:30","6:30 AM","Gillette Stadium, Foxborough",""],
+  ["group","D","Australia","Türkiye","2026-06-14T21:30","9:30 PM","BC Place, Vancouver",""],
+  ["group","E","Germany","Curaçao","2026-06-15T00:30","12:30 AM","NRG Stadium, Houston",""],
+  ["group","F","Netherlands","Japan","2026-06-15T03:30","3:30 AM","AT&T Stadium, Arlington",""],
+  ["group","E","Ivory Coast","Ecuador","2026-06-15T04:30","4:30 AM","Lincoln Financial Field",""],
+  ["group","F","Sweden","Tunisia","2026-06-15T07:30","7:30 AM","Estadio BBVA, Monterrey",""],
+  ["group","H","Spain","Cape Verde","2026-06-15T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta",""],
+  ["group","G","Belgium","Egypt","2026-06-16T00:30","12:30 AM","Lumen Field, Seattle",""],
+  ["group","H","Saudi Arabia","Uruguay","2026-06-16T03:30","3:30 AM","Hard Rock Stadium, Miami",""],
+  ["group","G","Iran","New Zealand","2026-06-16T06:30","6:30 AM","SoFi Stadium, Inglewood",""],
+  ["group","I","France","Senegal","2026-06-17T00:30","12:30 AM","MetLife Stadium, NJ",""],
+  ["group","I","Iraq","Norway","2026-06-17T03:30","3:30 AM","Gillette Stadium, Foxborough",""],
+  ["group","J","Argentina","Algeria","2026-06-17T06:30","6:30 AM","Arrowhead Stadium, Kansas City",""],
+  ["group","J","Austria","Jordan","2026-06-17T09:30","9:30 AM","Levi's Stadium, Santa Clara",""],
+  ["group","K","Portugal","DR Congo","2026-06-17T22:30","10:30 PM","NRG Stadium, Houston",""],
+  ["group","L","England","Croatia","2026-06-18T01:30","1:30 AM","AT&T Stadium, Arlington",""],
+  ["group","L","Ghana","Panama","2026-06-18T04:30","4:30 AM","BMO Field, Toronto",""],
+  ["group","K","Uzbekistan","Colombia","2026-06-18T07:30","7:30 AM","Estadio Azteca, Mexico City",""],
   ["group","A","Czechia","South Africa","2026-06-18T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta",""],
   ["group","B","Switzerland","Bosnia & Herz.","2026-06-19T00:30","12:30 AM","SoFi Stadium, Inglewood",""],
   ["group","B","Canada","Qatar","2026-06-19T03:30","3:30 AM","BC Place, Vancouver",""],
@@ -811,8 +821,7 @@ function renderTablesPage() {
           <th class="pos-col">#</th>
           <th class="team-col">Team</th>
           <th>MP</th><th>W</th><th>D</th><th>L</th>
-          <th>GF</th><th>GA</th><th>GD</th>
-          <th>Pts</th>
+          <th>GF</th><th>GA</th><th>Pts</th>
         </tr></thead>
         <tbody>`;
 
@@ -822,12 +831,11 @@ function renderTablesPage() {
       let rowClass = isFav ? 'fav-row' : '';
       if (pos <= 2) rowClass += (rowClass ? ' ' : '') + 'qualified';
       else if (pos === 3) rowClass += (rowClass ? ' ' : '') + 'best-third';
-      const gdStr = t.gd > 0 ? `+${t.gd}` : `${t.gd}`;
       html += `<tr class="${rowClass}">
         <td class="pos-col">${pos}</td>
         <td class="team-col">${t.name}</td>
         <td>${t.mp}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td>
-        <td>${t.gf}</td><td>${t.ga}</td><td>${gdStr}</td>
+        <td>${t.gf}</td><td>${t.ga}</td>
         <td class="pts-col">${t.pts}</td>
       </tr>`;
     });
@@ -876,7 +884,7 @@ function addBestThirdSection(groups, groupKeys) {
         <th class="pos-col">#</th>
         <th class="team-col">Team</th>
         <th>Grp</th><th>MP</th><th>W</th><th>D</th><th>L</th>
-        <th>GF</th><th>GA</th><th>GD</th><th>Pts</th>
+        <th>GF</th><th>GA</th><th>Pts</th>
       </tr></thead>
       <tbody>`;
 
@@ -886,13 +894,12 @@ function addBestThirdSection(groups, groupKeys) {
     const isFav = favTeams.includes(t.name);
     let rowClass = isFav ? 'fav-row' : '';
     if (advances) rowClass += (rowClass ? ' ' : '') + 'qualified';
-    const gdStr = t.gd > 0 ? `+${t.gd}` : `${t.gd}`;
     html += `<tr class="${rowClass}">
       <td class="pos-col">${pos}</td>
       <td class="team-col">${t.name}</td>
       <td style="color:var(--gold);font-weight:700">${t.grp}</td>
       <td>${t.mp}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td>
-      <td>${t.gf}</td><td>${t.ga}</td><td>${gdStr}</td>
+      <td>${t.gf}</td><td>${t.ga}</td>
       <td class="pts-col">${t.pts}</td>
     </tr>`;
     // Divider between 8th and 9th
