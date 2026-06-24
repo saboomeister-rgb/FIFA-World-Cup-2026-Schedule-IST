@@ -161,8 +161,8 @@
   /* DID YOU KNOW MARQUEE BAR */
   .dyk-bar{padding:0 0 8px;overflow:hidden;}
   .dyk-marquee-wrap{overflow:hidden;white-space:nowrap;}
-  .dyk-marquee-text{display:inline-block;padding-left:110%;animation:dyk-scroll 20s linear infinite;}
-  @keyframes dyk-scroll{0%{transform:translateX(0);}100%{transform:translateX(-100%);}}
+  .dyk-marquee-text{display:inline-block;will-change:transform;}
+  @keyframes dyk-scroll{from{transform:translateX(var(--start,100%));}to{transform:translateX(var(--end,-100%));}}
 
   /* STANDINGS TABLE */
   .standings-group{background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:12px;overflow:hidden;}
@@ -339,54 +339,54 @@
 // ── MATCH DATA ─────────────────────────────────────────────────────────────────
 // [stage, group, t1, t2, IST_ISO, ist_display, venue, result]
 const matches = [
-  ["group","A","Mexico","South Africa","2026-06-12T00:30","12:30 AM","Estadio Azteca, Mexico City","Mexico 2–0"],
-  ["group","A","South Korea","Czechia","2026-06-12T03:30","3:30 AM","Estadio Akron, Zapopan","South Korea 2–1"],
-  ["group","B","Canada","Bosnia & Herz.","2026-06-13T00:30","12:30 AM","Toronto Stadium","1–1 Draw"],
-  ["group","D","USA","Paraguay","2026-06-13T03:30","3:30 AM","Los Angeles Stadium","USA 4–1"],
-  ["group","B","Qatar","Switzerland","2026-06-14T00:30","12:30 AM","Levi's Stadium, Santa Clara","1–1 Draw"],
-  ["group","C","Brazil","Morocco","2026-06-14T03:30","3:30 AM","MetLife Stadium, NJ","1–1 Draw"],
-  ["group","C","Haiti","Scotland","2026-06-14T06:30","6:30 AM","Gillette Stadium, Foxborough","Scotland 1–0"],
-  ["group","D","Australia","Türkiye","2026-06-14T21:30","9:30 PM","BC Place, Vancouver","Australia 2–0"],
-  ["group","E","Germany","Curaçao","2026-06-15T00:30","12:30 AM","NRG Stadium, Houston","Germany 7–1"],
-  ["group","F","Netherlands","Japan","2026-06-15T03:30","3:30 AM","AT&T Stadium, Arlington","2–2 Draw"],
-  ["group","E","Ivory Coast","Ecuador","2026-06-15T04:30","4:30 AM","Lincoln Financial Field","Ivory Coast 1–0"],
-  ["group","F","Sweden","Tunisia","2026-06-15T07:30","7:30 AM","Estadio BBVA, Monterrey","Sweden 5–1"],
-  ["group","H","Spain","Cape Verde","2026-06-15T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta","0–0 Draw"],
-  ["group","G","Belgium","Egypt","2026-06-16T00:30","12:30 AM","Lumen Field, Seattle","1–1 Draw"],
-  ["group","H","Saudi Arabia","Uruguay","2026-06-16T03:30","3:30 AM","Hard Rock Stadium, Miami","1–1 Draw"],
-  ["group","G","Iran","New Zealand","2026-06-16T06:30","6:30 AM","SoFi Stadium, Inglewood","2–2 Draw"],
-  ["group","I","France","Senegal","2026-06-17T00:30","12:30 AM","MetLife Stadium, NJ","France 3–1"],
-  ["group","I","Iraq","Norway","2026-06-17T03:30","3:30 AM","Gillette Stadium, Foxborough","Norway 4–1"],
-  ["group","J","Argentina","Algeria","2026-06-17T06:30","6:30 AM","Arrowhead Stadium, Kansas City","Argentina 3–0"],
-  ["group","J","Austria","Jordan","2026-06-17T09:30","9:30 AM","Levi's Stadium, Santa Clara","Austria 3–1"],
-  ["group","K","Portugal","DR Congo","2026-06-17T22:30","10:30 PM","NRG Stadium, Houston","1–1 Draw"],
-  ["group","L","England","Croatia","2026-06-18T01:30","1:30 AM","AT&T Stadium, Arlington","England 4–2"],
-  ["group","L","Ghana","Panama","2026-06-18T04:30","4:30 AM","BMO Field, Toronto","Ghana 1–0"],
-  ["group","K","Uzbekistan","Colombia","2026-06-18T07:30","7:30 AM","Estadio Azteca, Mexico City","Colombia 3–1"],
-  ["group","A","Czechia","South Africa","2026-06-18T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta","1–1 Draw"],
-  ["group","B","Switzerland","Bosnia & Herz.","2026-06-19T00:30","12:30 AM","SoFi Stadium, Inglewood","Switzerland 4–1"],
-  ["group","B","Canada","Qatar","2026-06-19T03:30","3:30 AM","BC Place, Vancouver","Canada 6–0"],
-  ["group","A","Mexico","South Korea","2026-06-19T06:30","6:30 AM","Estadio Akron, Zapopan","Mexico 1–0"],
-  ["group","D","USA","Australia","2026-06-20T00:30","12:30 AM","Lumen Field, Seattle","USA 2–0"],
-  ["group","C","Scotland","Morocco","2026-06-20T03:30","3:30 AM","Gillette Stadium, Foxborough","Morocco 1–0"],
-  ["group","C","Brazil","Haiti","2026-06-20T06:00","6:00 AM","Lincoln Financial Field","Brazil 3–0"],
-  ["group","D","Türkiye","Paraguay","2026-06-20T08:30","8:30 AM","Levi's Stadium, Santa Clara","Paraguay 1–0"],
-  ["group","F","Netherlands","Sweden","2026-06-20T22:30","10:30 PM","NRG Stadium, Houston","Netherlands 5–1"],
-  ["group","E","Germany","Ivory Coast","2026-06-21T01:30","1:30 AM","BMO Field, Toronto","Germany 2–1"],
-  ["group","E","Ecuador","Curaçao","2026-06-21T05:30","5:30 AM","Arrowhead Stadium, Kansas City","0–0 Draw"],
-  ["group","F","Tunisia","Japan","2026-06-21T09:30","9:30 AM","Estadio BBVA, Monterrey","Japan 4–0"],
-  ["group","H","Spain","Saudi Arabia","2026-06-21T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta","Spain 4–0"],
-  ["group","G","Belgium","Iran","2026-06-22T00:30","12:30 AM","SoFi Stadium, Inglewood","0–0 Draw"],
-  ["group","H","Uruguay","Cape Verde","2026-06-22T03:30","3:30 AM","Hard Rock Stadium, Miami","2–2 Draw"],
-  ["group","G","New Zealand","Egypt","2026-06-22T06:30","6:30 AM","BC Place, Vancouver","Egypt 3–1"],
-  ["group","J","Argentina","Austria","2026-06-22T22:30","10:30 PM","AT&T Stadium, Arlington","Argentina 2–0"],
-  ["group","I","France","Iraq","2026-06-23T02:30","2:30 AM","Lincoln Financial Field","France 3–0"],
-  ["group","I","Norway","Senegal","2026-06-23T05:30","5:30 AM","MetLife Stadium, NJ","Norway 3–2"],
-  ["group","J","Jordan","Algeria","2026-06-23T08:30","8:30 AM","Levi's Stadium, Santa Clara","Algeria 2–1"],
-  ["group","K","Portugal","Uzbekistan","2026-06-23T22:30","10:30 PM","NRG Stadium, Houston","Portugal 5–0"],
-  ["group","L","England","Ghana","2026-06-24T01:30","1:30 AM","Gillette Stadium, Foxborough","0–0 Draw"],
-  ["group","L","Panama","Croatia","2026-06-24T04:30","4:30 AM","BMO Field, Toronto","Croatia 1–0"],
-  ["group","K","Colombia","DR Congo","2026-06-24T07:30","7:30 AM","Estadio Akron, Zapopan","Colombia 1–0"],
+  ["group","A","Mexico","South Africa","2026-06-12T00:30","12:30 AM","Estadio Azteca, Mexico City",""],
+  ["group","A","South Korea","Czechia","2026-06-12T03:30","3:30 AM","Estadio Akron, Zapopan",""],
+  ["group","B","Canada","Bosnia & Herz.","2026-06-13T00:30","12:30 AM","Toronto Stadium",""],
+  ["group","D","USA","Paraguay","2026-06-13T03:30","3:30 AM","Los Angeles Stadium",""],
+  ["group","B","Qatar","Switzerland","2026-06-14T00:30","12:30 AM","Levi's Stadium, Santa Clara",""],
+  ["group","C","Brazil","Morocco","2026-06-14T03:30","3:30 AM","MetLife Stadium, NJ",""],
+  ["group","C","Haiti","Scotland","2026-06-14T06:30","6:30 AM","Gillette Stadium, Foxborough",""],
+  ["group","D","Australia","Türkiye","2026-06-14T21:30","9:30 PM","BC Place, Vancouver",""],
+  ["group","E","Germany","Curaçao","2026-06-15T00:30","12:30 AM","NRG Stadium, Houston",""],
+  ["group","F","Netherlands","Japan","2026-06-15T03:30","3:30 AM","AT&T Stadium, Arlington",""],
+  ["group","E","Ivory Coast","Ecuador","2026-06-15T04:30","4:30 AM","Lincoln Financial Field",""],
+  ["group","F","Sweden","Tunisia","2026-06-15T07:30","7:30 AM","Estadio BBVA, Monterrey",""],
+  ["group","H","Spain","Cape Verde","2026-06-15T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta",""],
+  ["group","G","Belgium","Egypt","2026-06-16T00:30","12:30 AM","Lumen Field, Seattle",""],
+  ["group","H","Saudi Arabia","Uruguay","2026-06-16T03:30","3:30 AM","Hard Rock Stadium, Miami",""],
+  ["group","G","Iran","New Zealand","2026-06-16T06:30","6:30 AM","SoFi Stadium, Inglewood",""],
+  ["group","I","France","Senegal","2026-06-17T00:30","12:30 AM","MetLife Stadium, NJ",""],
+  ["group","I","Iraq","Norway","2026-06-17T03:30","3:30 AM","Gillette Stadium, Foxborough",""],
+  ["group","J","Argentina","Algeria","2026-06-17T06:30","6:30 AM","Arrowhead Stadium, Kansas City",""],
+  ["group","J","Austria","Jordan","2026-06-17T09:30","9:30 AM","Levi's Stadium, Santa Clara",""],
+  ["group","K","Portugal","DR Congo","2026-06-17T22:30","10:30 PM","NRG Stadium, Houston",""],
+  ["group","L","England","Croatia","2026-06-18T01:30","1:30 AM","AT&T Stadium, Arlington",""],
+  ["group","L","Ghana","Panama","2026-06-18T04:30","4:30 AM","BMO Field, Toronto",""],
+  ["group","K","Uzbekistan","Colombia","2026-06-18T07:30","7:30 AM","Estadio Azteca, Mexico City",""],
+  ["group","A","Czechia","South Africa","2026-06-18T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta",""],
+  ["group","B","Switzerland","Bosnia & Herz.","2026-06-19T00:30","12:30 AM","SoFi Stadium, Inglewood",""],
+  ["group","B","Canada","Qatar","2026-06-19T03:30","3:30 AM","BC Place, Vancouver",""],
+  ["group","A","Mexico","South Korea","2026-06-19T06:30","6:30 AM","Estadio Akron, Zapopan",""],
+  ["group","D","USA","Australia","2026-06-20T00:30","12:30 AM","Lumen Field, Seattle",""],
+  ["group","C","Scotland","Morocco","2026-06-20T03:30","3:30 AM","Gillette Stadium, Foxborough",""],
+  ["group","C","Brazil","Haiti","2026-06-20T06:00","6:00 AM","Lincoln Financial Field",""],
+  ["group","D","Türkiye","Paraguay","2026-06-20T08:30","8:30 AM","Levi's Stadium, Santa Clara",""],
+  ["group","F","Netherlands","Sweden","2026-06-20T22:30","10:30 PM","NRG Stadium, Houston",""],
+  ["group","E","Germany","Ivory Coast","2026-06-21T01:30","1:30 AM","BMO Field, Toronto",""],
+  ["group","E","Ecuador","Curaçao","2026-06-21T05:30","5:30 AM","Arrowhead Stadium, Kansas City",""],
+  ["group","F","Tunisia","Japan","2026-06-21T09:30","9:30 AM","Estadio BBVA, Monterrey",""],
+  ["group","H","Spain","Saudi Arabia","2026-06-21T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta",""],
+  ["group","G","Belgium","Iran","2026-06-22T00:30","12:30 AM","SoFi Stadium, Inglewood",""],
+  ["group","H","Uruguay","Cape Verde","2026-06-22T03:30","3:30 AM","Hard Rock Stadium, Miami",""],
+  ["group","G","New Zealand","Egypt","2026-06-22T06:30","6:30 AM","BC Place, Vancouver",""],
+  ["group","J","Argentina","Austria","2026-06-22T22:30","10:30 PM","AT&T Stadium, Arlington",""],
+  ["group","I","France","Iraq","2026-06-23T02:30","2:30 AM","Lincoln Financial Field",""],
+  ["group","I","Norway","Senegal","2026-06-23T05:30","5:30 AM","MetLife Stadium, NJ",""],
+  ["group","J","Jordan","Algeria","2026-06-23T08:30","8:30 AM","Levi's Stadium, Santa Clara",""],
+  ["group","K","Portugal","Uzbekistan","2026-06-23T22:30","10:30 PM","NRG Stadium, Houston",""],
+  ["group","L","England","Ghana","2026-06-24T01:30","1:30 AM","Gillette Stadium, Foxborough",""],
+  ["group","L","Panama","Croatia","2026-06-24T04:30","4:30 AM","BMO Field, Toronto",""],
+  ["group","K","Colombia","DR Congo","2026-06-24T07:30","7:30 AM","Estadio Akron, Zapopan",""],
   ["group","B","Switzerland","Canada","2026-06-25T00:30","12:30 AM","BC Place, Vancouver",""],
   ["group","B","Bosnia & Herz.","Qatar","2026-06-25T00:30","12:30 AM","Lumen Field, Seattle",""],
   ["group","C","Scotland","Brazil","2026-06-25T03:30","3:30 AM","Hard Rock Stadium, Miami",""],
@@ -498,7 +498,7 @@ function renderModalTeams(filter) {
   const teams = getAllTeams().filter(t => !q || t.toLowerCase().includes(q));
   document.getElementById('teamGrid').innerHTML = teams.length
     ? teams.map(t =>
-        `<button class="team-btn${pendingTeams.includes(t) ? ' selected' : ''}" onclick="toggleTeam(this,'${t.replace(/'/g,"\\'")}')">${t}</button>`
+        `<button class="team-btn${pendingTeams.includes(t) ? ' selected' : ''}" onclick="toggleTeam(this,'${t.replace(/'/g,"\\'")}')">${flag(t)}${t}</button>`
       ).join('')
     : `<div style="color:var(--muted);font-size:13px;padding:20px">No team found</div>`;
 }
@@ -569,12 +569,12 @@ function updateFavSection() {
   const totalGoals = teamStats.reduce((s, t) => s + t.gf, 0);
   const totalConceded = teamStats.reduce((s, t) => s + t.ga, 0);
 
-  const pills = favTeams.map(t => `<span style="display:inline-block;background:var(--card);border:1px solid rgba(240,180,41,.4);color:var(--gold2);font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin:2px 3px 2px 0">${t}</span>`).join('');
+  const pills = favTeams.map(t => `<span style="display:inline-block;background:var(--card);border:1px solid rgba(240,180,41,.4);color:var(--gold2);font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin:2px 3px 2px 0">${flag(t)}${t}</span>`).join('');
 
   const teamRows = teamStats.map(t => {
     const gdStr = t.gd > 0 ? `+${t.gd}` : `${t.gd}`;
     return `<div style="display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);">
-      <div style="font-size:12px;font-weight:700;color:var(--text);flex:1">${t.name}</div>
+      <div style="font-size:12px;font-weight:700;color:var(--text);flex:1">${flag(t.name)}${t.name}</div>
       <div style="display:flex;gap:12px;font-size:11px;color:var(--muted)">
         <span style="text-align:center"><div style="font-size:14px;font-weight:800;color:var(--gold2)">${t.gf}</div><div style="font-size:9px;letter-spacing:.4px">SCORED</div></span>
         <span style="text-align:center"><div style="font-size:14px;font-weight:800;color:var(--muted)">${t.ga}</div><div style="font-size:9px;letter-spacing:.4px">CONCEDED</div></span>
@@ -624,6 +624,25 @@ function fmtDate(iso) {
 function fmtDateLong(iso) {
   return new Date(iso+':00+05:30').toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
 }
+
+// ── FLAGS ──────────────────────────────────────────────────────────────────────
+const FLAG = {
+  "Mexico":"🇲🇽","South Africa":"🇿🇦","South Korea":"🇰🇷","Czechia":"🇨🇿",
+  "Canada":"🇨🇦","Bosnia & Herz.":"🇧🇦","USA":"🇺🇸","Paraguay":"🇵🇾",
+  "Qatar":"🇶🇦","Switzerland":"🇨🇭","Brazil":"🇧🇷","Morocco":"🇲🇦",
+  "Haiti":"🇭🇹","Scotland":"🏴󠁧󠁢󠁳󠁣󠁴󠁿","Australia":"🇦🇺","Türkiye":"🇹🇷",
+  "Germany":"🇩🇪","Curaçao":"🇨🇼","Netherlands":"🇳🇱","Japan":"🇯🇵",
+  "Ivory Coast":"🇨🇮","Ecuador":"🇪🇨","Sweden":"🇸🇪","Tunisia":"🇹🇳",
+  "Spain":"🇪🇸","Cape Verde":"🇨🇻","Belgium":"🇧🇪","Egypt":"🇪🇬",
+  "Saudi Arabia":"🇸🇦","Uruguay":"🇺🇾","Iran":"🇮🇷","New Zealand":"🇳🇿",
+  "France":"🇫🇷","Senegal":"🇸🇳","Iraq":"🇮🇶","Norway":"🇳🇴",
+  "Argentina":"🇦🇷","Algeria":"🇩🇿","Austria":"🇦🇹","Jordan":"🇯🇴",
+  "Portugal":"🇵🇹","DR Congo":"🇨🇩","England":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","Croatia":"🇭🇷",
+  "Ghana":"🇬🇭","Panama":"🇵🇦","Uzbekistan":"🇺🇿","Colombia":"🇨🇴",
+};
+function flag(name){ return FLAG[name] ? FLAG[name] + ' ' : ''; }
+
+// ── FLAGS END ──────────────────────────────────────────────────────────────────
 
 // ── LIVE MATCH ─────────────────────────────────────────────────────────────────
 function isMatchLive(iso) {
@@ -689,9 +708,9 @@ function renderCard(m) {
       ${isCompleted ? '<span class="ft-badge" style="margin-left:auto">FT ✓</span>' : ''}
     </div>
     <div class="match-teams">
-      <div class="team${t1Class}">${t1}${r1}</div>
+      <div class="team${t1Class}">${flag(t1)}${t1}${r1}</div>
       <div class="vs">VS</div>
-      <div class="team right${t2Class}">${t2 || ''}${r2}</div>
+      <div class="team right${t2Class}">${t2 ? flag(t2)+t2 : ''}${r2}</div>
     </div>
     <div class="match-footer">
       <div class="kick-off ${tc}">${ist} IST</div>
@@ -814,8 +833,8 @@ function renderBracket() {
     return `
       <rect x="${x}" y="${y}" width="${BW}" height="${BH}" rx="6" fill="${CC}" stroke="${bColor}" stroke-width="${bWidth}"/>
       <line x1="${x+1}" y1="${y+27}" x2="${x+BW-1}" y2="${y+27}" stroke="${CB}" stroke-width="1"/>
-      <text x="${x+8}" y="${y+18}" font-size="10.5" font-weight="${f1?'700':'400'}" fill="${f1?CG2:CT}" font-family="system-ui,sans-serif">${trunc(t1,15)}</text>
-      <text x="${x+8}" y="${y+44}" font-size="10.5" font-weight="${f2?'700':'400'}" fill="${f2?CG2:CT}" font-family="system-ui,sans-serif">${trunc(t2||'TBD',15)}</text>
+      <text x="${x+8}" y="${y+18}" font-size="10.5" font-weight="${f1?'700':'400'}" fill="${f1?CG2:CT}" font-family="system-ui,sans-serif">${flag(t1)}${trunc(t1,13)}</text>
+      <text x="${x+8}" y="${y+44}" font-size="10.5" font-weight="${f2?'700':'400'}" fill="${f2?CG2:CT}" font-family="system-ui,sans-serif">${t2?flag(t2)+trunc(t2,13):'TBD'}</text>
       ${s1!==''?`<text x="${x+BW-6}" y="${y+18}" font-size="11" font-weight="800" fill="${CG}" text-anchor="end" font-family="system-ui,sans-serif">${s1}</text>`:''}
       ${s2!==''?`<text x="${x+BW-6}" y="${y+44}" font-size="11" font-weight="800" fill="${CM}" text-anchor="end" font-family="system-ui,sans-serif">${s2}</text>`:''}
       ${live?`<circle cx="${x+BW-8}" cy="${y+8}" r="4" fill="#ef476f"><animate attributeName="opacity" values="1;0.3;1" dur="1.2s" repeatCount="indefinite"/></circle>`:''}
@@ -902,7 +921,7 @@ function updateCountdown() {
   const h = Math.floor(diff / 3600000);
   const min = Math.floor((diff % 3600000) / 60000);
   const sec = Math.floor((diff % 60000) / 1000);
-  document.getElementById('cdMatch').textContent = `${next[2]}${next[3]?' vs '+next[3]:''} · ${next[5]} IST`;
+  document.getElementById('cdMatch').textContent = `${flag(next[2])}${next[2]}${next[3]?' vs '+flag(next[3])+next[3]:''} · ${next[5]} IST`;
   document.getElementById('cdTimer').textContent = h > 48
     ? `${Math.floor(h/24)}d ${h%24}h`
     : `${String(h).padStart(2,'0')}:${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
@@ -987,7 +1006,7 @@ function renderTablesPage() {
       else if (pos === 3) rowClass += (rowClass ? ' ' : '') + 'best-third';
       html += `<tr class="${rowClass}">
         <td class="pos-col">${pos}</td>
-        <td class="team-col">${t.name}</td>
+        <td class="team-col">${flag(t.name)}${t.name}</td>
         <td>${t.mp}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td>
         <td>${t.gf}</td><td>${t.ga}</td>
         <td class="pts-col">${t.pts}</td>
@@ -1051,7 +1070,7 @@ function addBestThirdSection(groups, groupKeys) {
     if (advances) rowClass += (rowClass ? ' ' : '') + 'qualified';
     html += `<tr class="${rowClass}">
       <td class="pos-col">${pos}</td>
-      <td class="team-col">${t.name}</td>
+      <td class="team-col">${flag(t.name)}${t.name}</td>
       <td style="color:var(--gold);font-weight:700">${t.grp}</td>
       <td>${t.mp}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td>
       <td>${t.gf}</td><td>${t.ga}</td>
@@ -1095,7 +1114,7 @@ function addTopScorersSection(groups) {
     html += `<div style="display:flex;align-items:center;padding:9px 14px;border-bottom:1px solid rgba(30,42,64,.5);gap:10px${isFav?';background:rgba(240,180,41,.08)':''}">
       <div style="font-size:${i<3?'16':'12'}px;width:22px;text-align:center;flex-shrink:0">${rank}</div>
       <div style="flex:1;min-width:0">
-        <div style="font-size:12px;font-weight:700;color:${isFav?'var(--gold2)':goalColor}">${t.name}${isFav?' ⭐':''}</div>
+        <div style="font-size:12px;font-weight:700;color:${isFav?'var(--gold2)':goalColor}">${flag(t.name)}${t.name}${isFav?' ⭐':''}</div>
         <div style="height:3px;background:var(--border);border-radius:2px;margin-top:5px">
           <div style="height:3px;background:${barColor};border-radius:2px;width:${barPct}%"></div>
         </div>
@@ -1128,32 +1147,38 @@ const DYK_FACTS = [
 ];
 
 let dykIndex = 0;
-let dykTimer = null;
 
 function renderFact(i) {
   const el = document.getElementById('dyk-strip-text');
-  if (!el) return;
+  const wrap = el ? el.parentElement : null;
+  if (!el || !wrap) return;
   const fact = DYK_FACTS[i];
-  const duration = Math.max(16, Math.round(fact.t.length * 0.14));
   el.style.animation = 'none';
   el.style.fontSize = '11px';
   el.style.color = 'var(--muted)';
-  el.textContent = fact.e + '  💡 Did You Know —  ' + fact.t + '\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0';
-  el.offsetHeight; // force reflow to restart animation
-  el.style.animation = `dyk-scroll ${duration}s linear infinite`;
-}
+  el.textContent = fact.e + '  💡 Did You Know —  ' + fact.t;
+  el.offsetHeight; // reflow so widths are measured correctly
 
-function nextFact() {
-  clearInterval(dykTimer);
-  dykIndex = (dykIndex + 1) % DYK_FACTS.length;
-  renderFact(dykIndex);
-  dykTimer = setInterval(() => { dykIndex = (dykIndex + 1) % DYK_FACTS.length; renderFact(dykIndex); }, 8000);
+  const wrapW = wrap.offsetWidth;
+  const textW = el.offsetWidth;
+  // Start fully off the right edge, end fully off the left edge
+  el.style.setProperty('--start', wrapW + 'px');
+  el.style.setProperty('--end', '-' + textW + 'px');
+  // Constant comfortable reading speed: ~70px per second
+  const distance = wrapW + textW;
+  const duration = Math.max(14, Math.round(distance / 70));
+  el.style.animation = `dyk-scroll ${duration}s linear`;
 }
 
 function initDidYouKnow() {
+  const el = document.getElementById('dyk-strip-text');
+  if (!el) return;
   dykIndex = Math.floor(Math.random() * DYK_FACTS.length);
   renderFact(dykIndex);
-  dykTimer = setInterval(() => { dykIndex = (dykIndex + 1) % DYK_FACTS.length; renderFact(dykIndex); }, 8000);
+  el.addEventListener('animationend', () => {
+    dykIndex = (dykIndex + 1) % DYK_FACTS.length;
+    renderFact(dykIndex);
+  });
 }
 
 // ── TABS ───────────────────────────────────────────────────────────────────────
