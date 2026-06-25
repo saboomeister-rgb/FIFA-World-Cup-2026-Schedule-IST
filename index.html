@@ -88,6 +88,8 @@
   .kick-off.late{color:var(--red);}
   .venue-text{font-size:10px;color:var(--muted);text-align:right;max-width:55%;line-height:1.3;}
   .result-text{font-size:11px;font-weight:700;color:var(--green);margin-top:4px;}
+  .remind-btn{display:inline-flex;align-items:center;gap:5px;margin-top:8px;font-size:10px;font-weight:700;color:var(--gold2);background:var(--navy);border:1px solid rgba(240,180,41,.3);padding:5px 11px;border-radius:20px;cursor:pointer;letter-spacing:.3px;transition:background .15s;}
+  .remind-btn:active{background:var(--border);}
 
   .final-trophy{text-align:center;font-size:40px;margin:6px 0;}
   .final-label{text-align:center;font-size:11px;color:var(--gold);font-weight:700;letter-spacing:1px;margin-bottom:4px;}
@@ -360,60 +362,60 @@
 // ── MATCH DATA ─────────────────────────────────────────────────────────────────
 // [stage, group, t1, t2, IST_ISO, ist_display, venue, result]
 const matches = [
-  ["group","A","Mexico","South Africa","2026-06-12T00:30","12:30 AM","Estadio Azteca, Mexico City","Mexico 2–0"],
-  ["group","A","South Korea","Czechia","2026-06-12T03:30","3:30 AM","Estadio Akron, Zapopan","South Korea 2–1"],
-  ["group","B","Canada","Bosnia & Herz.","2026-06-13T00:30","12:30 AM","Toronto Stadium","1–1 Draw"],
-  ["group","D","USA","Paraguay","2026-06-13T03:30","3:30 AM","Los Angeles Stadium","USA 4–1"],
-  ["group","B","Qatar","Switzerland","2026-06-14T00:30","12:30 AM","Levi's Stadium, Santa Clara","1–1 Draw"],
-  ["group","C","Brazil","Morocco","2026-06-14T03:30","3:30 AM","MetLife Stadium, NJ","1–1 Draw"],
-  ["group","C","Haiti","Scotland","2026-06-14T06:30","6:30 AM","Gillette Stadium, Foxborough","Scotland 1–0"],
-  ["group","D","Australia","Türkiye","2026-06-14T21:30","9:30 PM","BC Place, Vancouver","Australia 2–0"],
-  ["group","E","Germany","Curaçao","2026-06-15T00:30","12:30 AM","NRG Stadium, Houston","Germany 7–1"],
-  ["group","F","Netherlands","Japan","2026-06-15T03:30","3:30 AM","AT&T Stadium, Arlington","2–2 Draw"],
-  ["group","E","Ivory Coast","Ecuador","2026-06-15T04:30","4:30 AM","Lincoln Financial Field","Ivory Coast 1–0"],
-  ["group","F","Sweden","Tunisia","2026-06-15T07:30","7:30 AM","Estadio BBVA, Monterrey","Sweden 5–1"],
-  ["group","H","Spain","Cape Verde","2026-06-15T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta","0–0 Draw"],
-  ["group","G","Belgium","Egypt","2026-06-16T00:30","12:30 AM","Lumen Field, Seattle","1–1 Draw"],
-  ["group","H","Saudi Arabia","Uruguay","2026-06-16T03:30","3:30 AM","Hard Rock Stadium, Miami","1–1 Draw"],
-  ["group","G","Iran","New Zealand","2026-06-16T06:30","6:30 AM","SoFi Stadium, Inglewood","2–2 Draw"],
-  ["group","I","France","Senegal","2026-06-17T00:30","12:30 AM","MetLife Stadium, NJ","France 3–1"],
-  ["group","I","Iraq","Norway","2026-06-17T03:30","3:30 AM","Gillette Stadium, Foxborough","Norway 4–1"],
-  ["group","J","Argentina","Algeria","2026-06-17T06:30","6:30 AM","Arrowhead Stadium, Kansas City","Argentina 3–0"],
-  ["group","J","Austria","Jordan","2026-06-17T09:30","9:30 AM","Levi's Stadium, Santa Clara","Austria 3–1"],
-  ["group","K","Portugal","DR Congo","2026-06-17T22:30","10:30 PM","NRG Stadium, Houston","1–1 Draw"],
-  ["group","L","England","Croatia","2026-06-18T01:30","1:30 AM","AT&T Stadium, Arlington","England 4–2"],
-  ["group","L","Ghana","Panama","2026-06-18T04:30","4:30 AM","BMO Field, Toronto","Ghana 1–0"],
-  ["group","K","Uzbekistan","Colombia","2026-06-18T07:30","7:30 AM","Estadio Azteca, Mexico City","Colombia 3–1"],
-  ["group","A","Czechia","South Africa","2026-06-18T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta","1–1 Draw"],
-  ["group","B","Switzerland","Bosnia & Herz.","2026-06-19T00:30","12:30 AM","SoFi Stadium, Inglewood","Switzerland 4–1"],
-  ["group","B","Canada","Qatar","2026-06-19T03:30","3:30 AM","BC Place, Vancouver","Canada 6–0"],
-  ["group","A","Mexico","South Korea","2026-06-19T06:30","6:30 AM","Estadio Akron, Zapopan","Mexico 1–0"],
-  ["group","D","USA","Australia","2026-06-20T00:30","12:30 AM","Lumen Field, Seattle","USA 2–0"],
-  ["group","C","Scotland","Morocco","2026-06-20T03:30","3:30 AM","Gillette Stadium, Foxborough","Morocco 1–0"],
-  ["group","C","Brazil","Haiti","2026-06-20T06:00","6:00 AM","Lincoln Financial Field","Brazil 3–0"],
-  ["group","D","Türkiye","Paraguay","2026-06-20T08:30","8:30 AM","Levi's Stadium, Santa Clara","Paraguay 1–0"],
-  ["group","F","Netherlands","Sweden","2026-06-20T22:30","10:30 PM","NRG Stadium, Houston","Netherlands 5–1"],
-  ["group","E","Germany","Ivory Coast","2026-06-21T01:30","1:30 AM","BMO Field, Toronto","Germany 2–1"],
-  ["group","E","Ecuador","Curaçao","2026-06-21T05:30","5:30 AM","Arrowhead Stadium, Kansas City","0–0 Draw"],
-  ["group","F","Tunisia","Japan","2026-06-21T09:30","9:30 AM","Estadio BBVA, Monterrey","Japan 4–0"],
-  ["group","H","Spain","Saudi Arabia","2026-06-21T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta","Spain 4–0"],
-  ["group","G","Belgium","Iran","2026-06-22T00:30","12:30 AM","SoFi Stadium, Inglewood","0–0 Draw"],
-  ["group","H","Uruguay","Cape Verde","2026-06-22T03:30","3:30 AM","Hard Rock Stadium, Miami","2–2 Draw"],
-  ["group","G","New Zealand","Egypt","2026-06-22T06:30","6:30 AM","BC Place, Vancouver","Egypt 3–1"],
-  ["group","J","Argentina","Austria","2026-06-22T22:30","10:30 PM","AT&T Stadium, Arlington","Argentina 2–0"],
-  ["group","I","France","Iraq","2026-06-23T02:30","2:30 AM","Lincoln Financial Field","France 3–0"],
-  ["group","I","Norway","Senegal","2026-06-23T05:30","5:30 AM","MetLife Stadium, NJ","Norway 3–2"],
-  ["group","J","Jordan","Algeria","2026-06-23T08:30","8:30 AM","Levi's Stadium, Santa Clara","Algeria 2–1"],
-  ["group","K","Portugal","Uzbekistan","2026-06-23T22:30","10:30 PM","NRG Stadium, Houston","Portugal 5–0"],
-  ["group","L","England","Ghana","2026-06-24T01:30","1:30 AM","Gillette Stadium, Foxborough","0–0 Draw"],
-  ["group","L","Panama","Croatia","2026-06-24T04:30","4:30 AM","BMO Field, Toronto","Croatia 1–0"],
-  ["group","K","Colombia","DR Congo","2026-06-24T07:30","7:30 AM","Estadio Akron, Zapopan","Colombia 1–0"],
-  ["group","B","Switzerland","Canada","2026-06-25T00:30","12:30 AM","BC Place, Vancouver","Switzerland 2–1"],
-  ["group","B","Bosnia & Herz.","Qatar","2026-06-25T00:30","12:30 AM","Lumen Field, Seattle","Bosnia & Herz. 3–1"],
-  ["group","C","Scotland","Brazil","2026-06-25T03:30","3:30 AM","Hard Rock Stadium, Miami","Brazil 3–0"],
-  ["group","C","Morocco","Haiti","2026-06-25T03:30","3:30 AM","Mercedes-Benz Stadium, Atlanta","Morocco 4–2"],
-  ["group","A","Czechia","Mexico","2026-06-25T06:30","6:30 AM","Estadio Azteca, Mexico City","Mexico 3–0"],
-  ["group","A","South Africa","South Korea","2026-06-25T06:30","6:30 AM","Estadio BBVA, Monterrey","South Africa 1–0"],
+  ["group","A","Mexico","South Africa","2026-06-12T00:30","12:30 AM","Estadio Azteca, Mexico City",""],
+  ["group","A","South Korea","Czechia","2026-06-12T03:30","3:30 AM","Estadio Akron, Zapopan",""],
+  ["group","B","Canada","Bosnia & Herz.","2026-06-13T00:30","12:30 AM","Toronto Stadium",""],
+  ["group","D","USA","Paraguay","2026-06-13T03:30","3:30 AM","Los Angeles Stadium",""],
+  ["group","B","Qatar","Switzerland","2026-06-14T00:30","12:30 AM","Levi's Stadium, Santa Clara",""],
+  ["group","C","Brazil","Morocco","2026-06-14T03:30","3:30 AM","MetLife Stadium, NJ",""],
+  ["group","C","Haiti","Scotland","2026-06-14T06:30","6:30 AM","Gillette Stadium, Foxborough",""],
+  ["group","D","Australia","Türkiye","2026-06-14T21:30","9:30 PM","BC Place, Vancouver",""],
+  ["group","E","Germany","Curaçao","2026-06-15T00:30","12:30 AM","NRG Stadium, Houston",""],
+  ["group","F","Netherlands","Japan","2026-06-15T03:30","3:30 AM","AT&T Stadium, Arlington",""],
+  ["group","E","Ivory Coast","Ecuador","2026-06-15T04:30","4:30 AM","Lincoln Financial Field",""],
+  ["group","F","Sweden","Tunisia","2026-06-15T07:30","7:30 AM","Estadio BBVA, Monterrey",""],
+  ["group","H","Spain","Cape Verde","2026-06-15T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta",""],
+  ["group","G","Belgium","Egypt","2026-06-16T00:30","12:30 AM","Lumen Field, Seattle",""],
+  ["group","H","Saudi Arabia","Uruguay","2026-06-16T03:30","3:30 AM","Hard Rock Stadium, Miami",""],
+  ["group","G","Iran","New Zealand","2026-06-16T06:30","6:30 AM","SoFi Stadium, Inglewood",""],
+  ["group","I","France","Senegal","2026-06-17T00:30","12:30 AM","MetLife Stadium, NJ",""],
+  ["group","I","Iraq","Norway","2026-06-17T03:30","3:30 AM","Gillette Stadium, Foxborough",""],
+  ["group","J","Argentina","Algeria","2026-06-17T06:30","6:30 AM","Arrowhead Stadium, Kansas City",""],
+  ["group","J","Austria","Jordan","2026-06-17T09:30","9:30 AM","Levi's Stadium, Santa Clara",""],
+  ["group","K","Portugal","DR Congo","2026-06-17T22:30","10:30 PM","NRG Stadium, Houston",""],
+  ["group","L","England","Croatia","2026-06-18T01:30","1:30 AM","AT&T Stadium, Arlington",""],
+  ["group","L","Ghana","Panama","2026-06-18T04:30","4:30 AM","BMO Field, Toronto",""],
+  ["group","K","Uzbekistan","Colombia","2026-06-18T07:30","7:30 AM","Estadio Azteca, Mexico City",""],
+  ["group","A","Czechia","South Africa","2026-06-18T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta",""],
+  ["group","B","Switzerland","Bosnia & Herz.","2026-06-19T00:30","12:30 AM","SoFi Stadium, Inglewood",""],
+  ["group","B","Canada","Qatar","2026-06-19T03:30","3:30 AM","BC Place, Vancouver",""],
+  ["group","A","Mexico","South Korea","2026-06-19T06:30","6:30 AM","Estadio Akron, Zapopan",""],
+  ["group","D","USA","Australia","2026-06-20T00:30","12:30 AM","Lumen Field, Seattle",""],
+  ["group","C","Scotland","Morocco","2026-06-20T03:30","3:30 AM","Gillette Stadium, Foxborough",""],
+  ["group","C","Brazil","Haiti","2026-06-20T06:00","6:00 AM","Lincoln Financial Field",""],
+  ["group","D","Türkiye","Paraguay","2026-06-20T08:30","8:30 AM","Levi's Stadium, Santa Clara",""],
+  ["group","F","Netherlands","Sweden","2026-06-20T22:30","10:30 PM","NRG Stadium, Houston",""],
+  ["group","E","Germany","Ivory Coast","2026-06-21T01:30","1:30 AM","BMO Field, Toronto",""],
+  ["group","E","Ecuador","Curaçao","2026-06-21T05:30","5:30 AM","Arrowhead Stadium, Kansas City",""],
+  ["group","F","Tunisia","Japan","2026-06-21T09:30","9:30 AM","Estadio BBVA, Monterrey",""],
+  ["group","H","Spain","Saudi Arabia","2026-06-21T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta",""],
+  ["group","G","Belgium","Iran","2026-06-22T00:30","12:30 AM","SoFi Stadium, Inglewood",""],
+  ["group","H","Uruguay","Cape Verde","2026-06-22T03:30","3:30 AM","Hard Rock Stadium, Miami",""],
+  ["group","G","New Zealand","Egypt","2026-06-22T06:30","6:30 AM","BC Place, Vancouver",""],
+  ["group","J","Argentina","Austria","2026-06-22T22:30","10:30 PM","AT&T Stadium, Arlington",""],
+  ["group","I","France","Iraq","2026-06-23T02:30","2:30 AM","Lincoln Financial Field",""],
+  ["group","I","Norway","Senegal","2026-06-23T05:30","5:30 AM","MetLife Stadium, NJ",""],
+  ["group","J","Jordan","Algeria","2026-06-23T08:30","8:30 AM","Levi's Stadium, Santa Clara",""],
+  ["group","K","Portugal","Uzbekistan","2026-06-23T22:30","10:30 PM","NRG Stadium, Houston",""],
+  ["group","L","England","Ghana","2026-06-24T01:30","1:30 AM","Gillette Stadium, Foxborough",""],
+  ["group","L","Panama","Croatia","2026-06-24T04:30","4:30 AM","BMO Field, Toronto",""],
+  ["group","K","Colombia","DR Congo","2026-06-24T07:30","7:30 AM","Estadio Akron, Zapopan",""],
+  ["group","B","Switzerland","Canada","2026-06-25T00:30","12:30 AM","BC Place, Vancouver",""],
+  ["group","B","Bosnia & Herz.","Qatar","2026-06-25T00:30","12:30 AM","Lumen Field, Seattle",""],
+  ["group","C","Scotland","Brazil","2026-06-25T03:30","3:30 AM","Hard Rock Stadium, Miami",""],
+  ["group","C","Morocco","Haiti","2026-06-25T03:30","3:30 AM","Mercedes-Benz Stadium, Atlanta",""],
+  ["group","A","Czechia","Mexico","2026-06-25T06:30","6:30 AM","Estadio Azteca, Mexico City",""],
+  ["group","A","South Africa","South Korea","2026-06-25T06:30","6:30 AM","Estadio BBVA, Monterrey",""],
   ["group","E","Curaçao","Ivory Coast","2026-06-26T01:30","1:30 AM","Lincoln Financial Field",""],
   ["group","E","Ecuador","Germany","2026-06-26T01:30","1:30 AM","MetLife Stadium, NJ",""],
   ["group","F","Japan","Sweden","2026-06-26T04:30","4:30 AM","AT&T Stadium, Arlington",""],
@@ -432,38 +434,38 @@ const matches = [
   ["group","K","DR Congo","Uzbekistan","2026-06-28T05:00","5:00 AM","Mercedes-Benz Stadium, Atlanta",""],
   ["group","J","Algeria","Austria","2026-06-28T07:30","7:30 AM","Arrowhead Stadium, Kansas City",""],
   ["group","J","Jordan","Argentina","2026-06-28T07:30","7:30 AM","AT&T Stadium, Arlington",""],
-  ["ko","R32","South Africa","Canada","2026-06-29T00:30","12:30 AM","SoFi Stadium, Inglewood",""],
-  ["ko","R32","Brazil","Group F 2nd Place","2026-06-29T22:30","10:30 PM","NRG Stadium, Houston",""],
-  ["ko","R32","Germany","Third Place Group A/B/C/D/F","2026-06-30T02:00","2:00 AM","Gillette Stadium, Foxborough",""],
-  ["ko","R32","Group F Winner","Morocco","2026-06-30T06:30","6:30 AM","Estadio BBVA, Monterrey",""],
-  ["ko","R32","Group E 2nd Place","Group I 2nd Place","2026-06-30T22:30","10:30 PM","AT&T Stadium, Arlington",""],
-  ["ko","R32","Group I Winner","Third Place Group C/D/F/G/H","2026-07-01T02:30","2:30 AM","MetLife Stadium, NJ",""],
-  ["ko","R32","Mexico","Third Place Group C/E/F/H/I","2026-07-01T06:30","6:30 AM","Estadio Azteca, Mexico City",""],
-  ["ko","R32","Group L Winner","Third Place Group E/H/I/J/K","2026-07-01T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta",""],
-  ["ko","R32","Group G Winner","Third Place Group A/E/H/I/J","2026-07-02T01:30","1:30 AM","Lumen Field, Seattle",""],
-  ["ko","R32","USA","Third Place Group B/E/F/I/J","2026-07-02T05:30","5:30 AM","Levi's Stadium, Santa Clara",""],
-  ["ko","R32","Group H Winner","Group J 2nd Place","2026-07-03T00:30","12:30 AM","SoFi Stadium, Inglewood",""],
-  ["ko","R32","Group K 2nd Place","Group L 2nd Place","2026-07-03T04:30","4:30 AM","BMO Field, Toronto",""],
-  ["ko","R32","Switzerland","Third Place Group E/F/G/I/J","2026-07-03T08:30","8:30 AM","BC Place, Vancouver",""],
-  ["ko","R32","Group D 2nd Place","Group G 2nd Place","2026-07-03T23:30","11:30 PM","AT&T Stadium, Arlington",""],
-  ["ko","R32","Argentina","Group H 2nd Place","2026-07-04T03:30","3:30 AM","Hard Rock Stadium, Miami",""],
-  ["ko","R32","Group K Winner","Third Place Group D/E/I/J/L","2026-07-04T07:00","7:00 AM","Arrowhead Stadium, Kansas City",""],
-  ["ko","R16","Round of 32 1 Winner","Round of 32 3 Winner","2026-07-04T22:30","10:30 PM","NRG Stadium, Houston",""],
-  ["ko","R16","Round of 32 2 Winner","Round of 32 5 Winner","2026-07-05T02:30","2:30 AM","Lincoln Financial Field",""],
-  ["ko","R16","Round of 32 4 Winner","Round of 32 6 Winner","2026-07-06T01:30","1:30 AM","MetLife Stadium, NJ",""],
-  ["ko","R16","Round of 32 7 Winner","Round of 32 8 Winner","2026-07-06T05:30","5:30 AM","Estadio Azteca, Mexico City",""],
-  ["ko","R16","Round of 32 11 Winner","Round of 32 12 Winner","2026-07-07T00:30","12:30 AM","AT&T Stadium, Arlington",""],
-  ["ko","R16","Round of 32 9 Winner","Round of 32 10 Winner","2026-07-07T05:30","5:30 AM","Lumen Field, Seattle",""],
-  ["ko","R16","Round of 32 14 Winner","Round of 32 16 Winner","2026-07-07T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta",""],
-  ["ko","R16","Round of 32 13 Winner","Round of 32 15 Winner","2026-07-08T01:30","1:30 AM","BC Place, Vancouver",""],
-  ["ko","QF","Round of 16 1 Winner","Round of 16 2 Winner","2026-07-10T01:30","1:30 AM","Gillette Stadium, Foxborough",""],
-  ["ko","QF","Round of 16 5 Winner","Round of 16 6 Winner","2026-07-11T00:30","12:30 AM","SoFi Stadium, Inglewood",""],
-  ["ko","QF","Round of 16 3 Winner","Round of 16 4 Winner","2026-07-12T02:30","2:30 AM","Hard Rock Stadium, Miami",""],
-  ["ko","QF","Round of 16 7 Winner","Round of 16 8 Winner","2026-07-12T06:30","6:30 AM","Arrowhead Stadium, Kansas City",""],
-  ["ko","SF","Quarterfinal 1 Winner","Quarterfinal 2 Winner","2026-07-15T00:30","12:30 AM","AT&T Stadium, Dallas",""],
-  ["ko","SF","Quarterfinal 3 Winner","Quarterfinal 4 Winner","2026-07-16T00:30","12:30 AM","Mercedes-Benz Stadium, Atlanta",""],
-  ["ko","3P","Semifinal 1 Loser","Semifinal 2 Loser","2026-07-19T02:30","2:30 AM","Hard Rock Stadium, Miami",""],
-  ["final","🏆","Semifinal 1 Winner","Semifinal 2 Winner","2026-07-20T00:30","12:30 AM","MetLife Stadium, NJ",""],
+  ["ko","R32","Runner-up A","Runner-up B","2026-06-29T00:30","12:30 AM","SoFi Stadium, Inglewood",""],
+  ["ko","R32","Winner C","Runner-up F","2026-06-29T22:30","10:30 PM","NRG Stadium, Houston",""],
+  ["ko","R32","Winner E","Best 3rd","2026-06-30T02:00","2:00 AM","Gillette Stadium, Foxborough",""],
+  ["ko","R32","Winner F","Runner-up C","2026-06-30T06:30","6:30 AM","Estadio BBVA, Monterrey",""],
+  ["ko","R32","Runner-up E","Runner-up I","2026-06-30T22:30","10:30 PM","AT&T Stadium, Arlington",""],
+  ["ko","R32","Winner I","Best 3rd","2026-07-01T02:30","2:30 AM","MetLife Stadium, NJ",""],
+  ["ko","R32","Winner A","Best 3rd","2026-07-01T06:30","6:30 AM","Estadio Azteca, Mexico City",""],
+  ["ko","R32","Winner L","Best 3rd","2026-07-01T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta",""],
+  ["ko","R32","Winner G","Best 3rd","2026-07-02T01:30","1:30 AM","Lumen Field, Seattle",""],
+  ["ko","R32","Winner D","Best 3rd","2026-07-02T05:30","5:30 AM","Levi's Stadium, Santa Clara",""],
+  ["ko","R32","Winner H","Runner-up J","2026-07-03T00:30","12:30 AM","SoFi Stadium, Inglewood",""],
+  ["ko","R32","Runner-up K","Runner-up L","2026-07-03T04:30","4:30 AM","BMO Field, Toronto",""],
+  ["ko","R32","Winner B","Best 3rd","2026-07-03T08:30","8:30 AM","BC Place, Vancouver",""],
+  ["ko","R32","Runner-up D","Runner-up G","2026-07-03T23:30","11:30 PM","AT&T Stadium, Arlington",""],
+  ["ko","R32","Winner J","Runner-up H","2026-07-04T03:30","3:30 AM","Hard Rock Stadium, Miami",""],
+  ["ko","R32","Winner K","Best 3rd","2026-07-04T07:00","7:00 AM","Arrowhead Stadium, Kansas City",""],
+  ["ko","R16","R32 Win 1","R32 Win 2","2026-07-04T22:30","10:30 PM","NRG Stadium, Houston",""],
+  ["ko","R16","R32 Win 3","R32 Win 4","2026-07-05T02:30","2:30 AM","Lincoln Financial Field",""],
+  ["ko","R16","R32 Win 5","R32 Win 6","2026-07-06T01:30","1:30 AM","MetLife Stadium, NJ",""],
+  ["ko","R16","R32 Win 7","R32 Win 8","2026-07-06T05:30","5:30 AM","Estadio Azteca, Mexico City",""],
+  ["ko","R16","R32 Win 9","R32 Win 10","2026-07-07T00:30","12:30 AM","AT&T Stadium, Arlington",""],
+  ["ko","R16","R32 Win 11","R32 Win 12","2026-07-07T05:30","5:30 AM","Lumen Field, Seattle",""],
+  ["ko","R16","R32 Win 13","R32 Win 14","2026-07-07T21:30","9:30 PM","Mercedes-Benz Stadium, Atlanta",""],
+  ["ko","R16","R32 Win 15","R32 Win 16","2026-07-08T01:30","1:30 AM","BC Place, Vancouver",""],
+  ["ko","QF","QF 1","","2026-07-10T01:30","1:30 AM","Gillette Stadium, Foxborough",""],
+  ["ko","QF","QF 2","","2026-07-11T00:30","12:30 AM","SoFi Stadium, Inglewood",""],
+  ["ko","QF","QF 3","","2026-07-12T02:30","2:30 AM","Hard Rock Stadium, Miami",""],
+  ["ko","QF","QF 4","","2026-07-12T06:30","6:30 AM","Arrowhead Stadium, Kansas City",""],
+  ["ko","SF","Semifinal 1","","2026-07-15T00:30","12:30 AM","AT&T Stadium, Dallas",""],
+  ["ko","SF","Semifinal 2","","2026-07-16T00:30","12:30 AM","Mercedes-Benz Stadium, Atlanta",""],
+  ["ko","3P","3rd Place Match","","2026-07-19T02:30","2:30 AM","Hard Rock Stadium, Miami",""],
+  ["final","🏆","WORLD CUP FINAL","","2026-07-20T00:30","12:30 AM","MetLife Stadium, NJ",""],
 ];
 
 // ── FAV TEAMS (multi-select) ───────────────────────────────────────────────────
@@ -770,7 +772,7 @@ const FLAG = {
 function flag(name){ return FLAG[name] ? FLAG[name] + ' ' : ''; }
 
 // ── GOLDEN BOOT DATA (auto-injected by update_results.py) ──────────────────────
-const TOP_SCORERS_DATA = [{"name": "Lionel Messi", "goals": 5, "country": "Argentina"}, {"name": "Vinícius Júnior", "goals": 4, "country": "Brazil"}, {"name": "Kylian Mbappé", "goals": 4, "country": "France"}, {"name": "Erling Haaland", "goals": 4, "country": "Norway"}, {"name": "Ismael Saibari", "goals": 3, "country": "Morocco"}, {"name": "Deniz Undav", "goals": 3, "country": "Germany"}, {"name": "Johan Manzambi", "goals": 3, "country": "Switzerland"}, {"name": "Jonathan David", "goals": 3, "country": "Canada"}, {"name": "Matheus Cunha", "goals": 3, "country": "Brazil"}, {"name": "Julián Quiñones", "goals": 2, "country": "Mexico"}, {"name": "Cyle Larin", "goals": 2, "country": "Canada"}, {"name": "Folarin Balogun", "goals": 2, "country": "USA"}, {"name": "Kai Havertz", "goals": 2, "country": "Germany"}, {"name": "Crysencio Summerville", "goals": 2, "country": "Netherlands"}, {"name": "Daichi Kamada", "goals": 2, "country": "Japan"}, {"name": "Yasin Ayari", "goals": 2, "country": "Sweden"}, {"name": "Maxi Araújo", "goals": 2, "country": "Uruguay"}, {"name": "Elijah Just", "goals": 2, "country": "New Zealand"}, {"name": "Aymen Hussein", "goals": 2, "country": "Iraq"}, {"name": "Harry Kane", "goals": 2, "country": "England"}, {"name": "Daniel Muñoz", "goals": 2, "country": "Colombia"}, {"name": "Rubén Vargas", "goals": 2, "country": "Switzerland"}, {"name": "Ermin Mahmic", "goals": 2, "country": "Bosnia & Herz."}, {"name": "Brian Brobbey", "goals": 2, "country": "Netherlands"}, {"name": "Cody Gakpo", "goals": 2, "country": "Netherlands"}, {"name": "Ayase Ueda", "goals": 2, "country": "Japan"}, {"name": "Mikel Oyarzabal", "goals": 2, "country": "Spain"}, {"name": "Ismaïla Sarr", "goals": 2, "country": "Senegal"}, {"name": "Cristiano Ronaldo", "goals": 2, "country": "Portugal"}, {"name": "Raúl Jiménez", "goals": 1, "country": "Mexico"}, {"name": "Ladislav Krejcí", "goals": 1, "country": "Czechia"}, {"name": "Hwang In-Beom", "goals": 1, "country": "South Korea"}, {"name": "Oh Hyeon-Gyu", "goals": 1, "country": "South Korea"}, {"name": "Jovo Lukic", "goals": 1, "country": "Bosnia & Herz."}, {"name": "Damián Bobadilla", "goals": 1, "country": "USA"}, {"name": "Maurício", "goals": 1, "country": "Paraguay"}, {"name": "Giovanni Reyna", "goals": 1, "country": "USA"}, {"name": "Breel Embolo", "goals": 1, "country": "Switzerland"}, {"name": "Miro Muheim", "goals": 1, "country": "Qatar"}, {"name": "John McGinn", "goals": 1, "country": "Scotland"}, {"name": "Nestory Irankunda", "goals": 1, "country": "Australia"}, {"name": "Connor Metcalfe", "goals": 1, "country": "Australia"}, {"name": "Felix Nmecha", "goals": 1, "country": "Germany"}, {"name": "Livano Comenencia", "goals": 1, "country": "Curaçao"}, {"name": "Nico Schlotterbeck", "goals": 1, "country": "Germany"}, {"name": "Jamal Musiala", "goals": 1, "country": "Germany"}, {"name": "Nathaniel Brown", "goals": 1, "country": "Germany"}, {"name": "Virgil van Dijk", "goals": 1, "country": "Netherlands"}, {"name": "Keito Nakamura", "goals": 1, "country": "Japan"}, {"name": "Amad Diallo", "goals": 1, "country": "Ivory Coast"}, {"name": "Alexander Isak", "goals": 1, "country": "Sweden"}, {"name": "Omar Rekik", "goals": 1, "country": "Tunisia"}, {"name": "Viktor Gyökeres", "goals": 1, "country": "Sweden"}, {"name": "Mattias Svanberg", "goals": 1, "country": "Sweden"}, {"name": "Emam Ashour", "goals": 1, "country": "Egypt"}, {"name": "Mohamed Hany", "goals": 1, "country": "Belgium"}, {"name": "Abdulelah Al-Amri", "goals": 1, "country": "Saudi Arabia"}, {"name": "Ramin Rezaeian", "goals": 1, "country": "Iran"}, {"name": "Mohammad Mohebbi", "goals": 1, "country": "Iran"}, {"name": "Bradley Barcola", "goals": 1, "country": "France"}, {"name": "Ibrahim Mbaye", "goals": 1, "country": "Senegal"}, {"name": "Leo Østigard", "goals": 1, "country": "Norway"}, {"name": "Romano Schmid", "goals": 1, "country": "Austria"}, {"name": "Ali Olwan", "goals": 1, "country": "Jordan"}, {"name": "Yazan Al-Arab", "goals": 1, "country": "Austria"}, {"name": "Marko Arnautovic", "goals": 1, "country": "Austria"}, {"name": "João Neves", "goals": 1, "country": "Portugal"}, {"name": "Yoane Wissa", "goals": 1, "country": "DR Congo"}, {"name": "Martin Baturina", "goals": 1, "country": "Croatia"}, {"name": "Petar Musa", "goals": 1, "country": "Croatia"}, {"name": "Jude Bellingham", "goals": 1, "country": "England"}, {"name": "Marcus Rashford", "goals": 1, "country": "England"}, {"name": "Caleb Yirenkyi", "goals": 1, "country": "Ghana"}, {"name": "Abbosbek Fayzullaev", "goals": 1, "country": "Uzbekistan"}, {"name": "Luis Díaz", "goals": 1, "country": "Colombia"}, {"name": "Jáminton Campaz", "goals": 1, "country": "Colombia"}, {"name": "Michal Sadílek", "goals": 1, "country": "Czechia"}, {"name": "Teboho Mokoena", "goals": 1, "country": "South Africa"}, {"name": "Granit Xhaka", "goals": 1, "country": "Switzerland"}, {"name": "Nathan Saliba", "goals": 1, "country": "Canada"}, {"name": "Mohamed Manai", "goals": 1, "country": "Canada"}, {"name": "Luis Romo", "goals": 1, "country": "Mexico"}, {"name": "Cameron Burgess", "goals": 1, "country": "USA"}, {"name": "Alex Freeman", "goals": 1, "country": "USA"}, {"name": "Matías Galarza", "goals": 1, "country": "Paraguay"}, {"name": "Anthony Elanga", "goals": 1, "country": "Sweden"}, {"name": "Franck Kessié", "goals": 1, "country": "Ivory Coast"}, {"name": "Junya Ito", "goals": 1, "country": "Japan"}, {"name": "Lamine Yamal", "goals": 1, "country": "Spain"}, {"name": "Hassan Al-Tambakti", "goals": 1, "country": "Spain"}, {"name": "Kevin Pina", "goals": 1, "country": "Cape Verde"}, {"name": "Agustín Canobbio", "goals": 1, "country": "Uruguay"}, {"name": "Hélio Varela", "goals": 1, "country": "Cape Verde"}, {"name": "Finn Surman", "goals": 1, "country": "New Zealand"}, {"name": "Mostafa Zico", "goals": 1, "country": "Egypt"}, {"name": "Mohamed Salah", "goals": 1, "country": "Egypt"}, {"name": "Trézéguet", "goals": 1, "country": "Egypt"}, {"name": "Ousmane Dembélé", "goals": 1, "country": "France"}, {"name": "Marcus Holmgren Pedersen", "goals": 1, "country": "Norway"}, {"name": "Nizar Al-Rashdan", "goals": 1, "country": "Jordan"}, {"name": "Nadhir Benbouali", "goals": 1, "country": "Algeria"}, {"name": "Amine Gouiri", "goals": 1, "country": "Algeria"}, {"name": "Nuno Mendes", "goals": 1, "country": "Portugal"}, {"name": "Abduvohid Nematov", "goals": 1, "country": "Portugal"}, {"name": "Rafael Leão", "goals": 1, "country": "Portugal"}, {"name": "Ante Budimir", "goals": 1, "country": "Croatia"}, {"name": "Kerim Alajbegovic", "goals": 1, "country": "Bosnia & Herz."}, {"name": "Mahmoud Abunada", "goals": 1, "country": "Bosnia & Herz."}, {"name": "Hassan Al-Haydos", "goals": 1, "country": "Qatar"}, {"name": "Promise David", "goals": 1, "country": "Canada"}, {"name": "Yassine Bounou", "goals": 1, "country": "Haiti"}, {"name": "Achraf Hakimi", "goals": 1, "country": "Morocco"}, {"name": "Wilson Isidor", "goals": 1, "country": "Haiti"}, {"name": "Soufiane Rahimi", "goals": 1, "country": "Morocco"}, {"name": "Gessime Yassine", "goals": 1, "country": "Morocco"}, {"name": "Mateo Chávez", "goals": 1, "country": "Mexico"}, {"name": "Álvaro Fidalgo", "goals": 1, "country": "Mexico"}, {"name": "Thapelo Maseko", "goals": 1, "country": "South Africa"}];
+const TOP_SCORERS_DATA = [];
 
 // ── FLAGS END ──────────────────────────────────────────────────────────────────
 
@@ -778,6 +780,58 @@ const TOP_SCORERS_DATA = [{"name": "Lionel Messi", "goals": 5, "country": "Argen
 function isMatchLive(iso) {
   const elapsed = new Date() - matchDate(iso);
   return elapsed > 0 && elapsed < 115 * 60 * 1000;
+}
+
+// ── CALENDAR REMINDER ──────────────────────────────────────────────────────────
+function addReminder(m) {
+  const [stage, group, t1, t2, iso, , venue] = m;
+  const start = matchDate(iso);
+  const end = new Date(start.getTime() + 120 * 60 * 1000); // 2 hours
+
+  // Format as UTC for .ics (YYYYMMDDTHHMMSSZ)
+  const fmt = d => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+  const dtStart = fmt(start);
+  const dtEnd = fmt(end);
+  const dtStamp = fmt(new Date());
+
+  const title = t2 ? `⚽ ${t1} vs ${t2}` : `⚽ ${t1}`;
+  const stageLabel = stage === 'group' ? `Group ${group}` :
+                     stage === 'final' ? 'World Cup Final' : group;
+  const desc = `FIFA World Cup 2026 — ${stageLabel}\\nVenue: ${venue}\\nKickoff shown in your selected timezone (${currentTz.id}).`;
+  const uid = `wc2026-${iso.replace(/[-:T]/g,'')}-${(t1||'').replace(/\s/g,'')}@kickoffist`;
+
+  const ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//KickoffIST//WC2026//EN',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    `UID:${uid}`,
+    `DTSTAMP:${dtStamp}`,
+    `DTSTART:${dtStart}`,
+    `DTEND:${dtEnd}`,
+    `SUMMARY:${title}`,
+    `DESCRIPTION:${desc}`,
+    `LOCATION:${venue.replace(/,/g, '\\,')}`,
+    'BEGIN:VALARM',
+    'TRIGGER:-PT30M',
+    'ACTION:DISPLAY',
+    `DESCRIPTION:${title} starts in 30 minutes`,
+    'END:VALARM',
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].join('\r\n');
+
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${(t1||'match').replace(/\s/g,'_')}${t2?'_vs_'+t2.replace(/\s/g,'_'):''}.ics`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 // ── FIFA RANKINGS (June 11, 2026) ──────────────────────────────────────────────
@@ -844,7 +898,8 @@ function renderCard(m) {
       <div class="kick-off ${tc}">${tzTime(iso)} <span style="font-size:11px;font-weight:700;color:var(--muted)">${currentTz.id}</span></div>
       <div class="venue-text">${venue}</div>
     </div>
-    ${isCompleted ? `<div class="result-text">${result}</div>` : ''}
+    ${isCompleted ? `<div class="result-text">${result}</div>` :
+      (live ? '' : `<button class="remind-btn" onclick='addReminder(${JSON.stringify(m).replace(/'/g,"&#39;")})'>🔔 Remind me</button>`)}
   </div>`;
 }
 
