@@ -64,12 +64,33 @@ def parse_events(data):
             except (ValueError, TypeError):
                 sa = sb = -1
             if sa >= 0 and sb >= 0:
-                group_results.append((ta, tb, sa, sb))
-                ko_updates.append((iso, ta, tb, make_result_str(ta, tb, sa, sb)))
+                # Detect penalty shootout — ESPN provides shootoutScore when scores level
+                pa = home.get("shootoutScore")
+                pb = away.get("shootoutScore")
+                has_pens = pa is not None and pb is not None and (sa == sb)
+                result = make_result_pen(ta, tb, sa, sb, pa, pb, has_pens)
+                group_results.append((ta, tb, sa, sb, pa, pb, has_pens))
+                ko_updates.append((iso, ta, tb, result))
                 completed_ids.append(event.get("id"))
         elif not completed and ta and tb and 'TBD' not in ta and 'TBD' not in tb:
             ko_updates.append((iso, ta, tb, ""))
     return group_results, ko_updates, completed_ids
+
+def make_result_pen(ta, tb, sa, sb, pa, pb, has_pens):
+    """Result string. For penalties: 'Morocco 1–1 (4–2 pens)'."""
+    if has_pens:
+        try:
+            pa, pb = int(pa), int(pb)
+        except (ValueError, TypeError):
+            has_pens = False
+    if has_pens:
+        winner = ta if pa > pb else tb
+        wp, lp = (pa, pb) if pa > pb else (pb, pa)
+        return f"{winner} {sa}\u2013{sb} ({wp}\u2013{lp} pens)"
+    # Normal result
+    if sa > sb:   return f"{ta} {sa}\u2013{sb}"
+    elif sb > sa: return f"{tb} {sb}\u2013{sa}"
+    else:         return f"{sa}\u2013{sb} Draw"
 
 # ── SCORER PARSING (robust, multi-field) ───────────────────────────────────────
 
@@ -180,7 +201,9 @@ def inject_scorers(scorers, html):
 
 def update_group_html(results, html):
     upd = alr = 0
-    for (ta, tb, sa, sb) in results:
+    for row in results:
+        ta, tb, sa, sb = row[0], row[1], row[2], row[3]
+        # Group matches never go to penalties, so use simple result here
         for (t1, t2, s1, s2) in [(ta, tb, sa, sb), (tb, ta, sb, sa)]:
             result = make_result(t1, t2, s1, s2)
             pat = (r'(\["group","[^"]*","' + re.escape(t1) + r'","' + re.escape(t2) + r'","[^"]*","[^"]*","[^"]*",)"[^"]*"(\])')
